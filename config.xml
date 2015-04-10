@@ -12,7 +12,7 @@
         </description>
         
         <author href="http:/www.jeremycallahan.com" email="jeremy@jeremycallahan.com">
-            Callahan & Associates
+            Guy Fieri
         </author>
         
         <gap:plugin name="org.apache.cordova.geolocation" />
