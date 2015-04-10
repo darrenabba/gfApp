@@ -1,0 +1,618 @@
+/*
+ * HTML5 ✰ Boilerplate
+ *
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ *
+ * Detailed information about this CSS: h5bp.com/css
+ *
+ * ==|== normalize ==========================================================\
+ */
+@font-face {
+      font-family: "museo_slab_500";
+      src: url("../fonts/museo_slab_500.otf");
+}
+@font-face {
+      font-family: "Museo300";
+      src: url("../fonts/Museo300-Regular.otf");
+}
+@font-face {
+      font-family: "Museo500";
+      src: url("../fonts/Museo500-Regular.otf");
+}
+@font-face {
+      font-family: "Museo700";
+      src: url("../fonts/Museo700-Regular.otf");
+}
+/* =============================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
+audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
+audio:not([controls]) { display: none; }
+[hidden] { display: none; }
+
+
+/* =============================================================================
+   Base
+   ========================================================================== */
+
+/*
+ * 1. Correct text resizing oddly in IE6/7 when body font-size is set using em units
+ * 3. Prevent iOS text size adjust on device orientation change, without disabling user zoom: h5bp.com/g
+ */
+
+html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; height: 100%; width: 100%; }
+
+body { margin: 0; font-size: 13px; line-height: 1.231; height: 100%; width: 100%; }
+
+body, button, input, select, textarea { font-family: sans-serif; color: #222; }
+
+
+
+/* =============================================================================
+   Links
+   ========================================================================== */
+
+a { color: #E79924; font-family: 'Museo700', serif; text-decoration: none; }
+a:visited { color: #E79924; }
+a:hover { color: #E79924; }
+a:focus { }
+
+/* Improve readability when focused and hovered in all browsers: h5bp.com/h */
+a:hover, a:active { outline: 0; }
+
+
+/* =============================================================================
+   Typography
+   ========================================================================== */
+
+abbr[title] { border-bottom: 1px dotted; }
+
+b, strong { font-weight: bold; }
+
+blockquote { margin: 1em 40px; }
+
+dfn { font-style: italic; }
+
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+
+ins { background: #ff9; color: #000; text-decoration: none; }
+
+mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+
+/* Redeclare monospace font family: h5bp.com/j */
+pre, code, kbd, samp { font-family: monospace, serif; _font-family: 'courier new', monospace; font-size: 1em; }
+
+/* Improve readability of pre-formatted text in all browsers */
+pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
+
+q { quotes: none; }
+q:before, q:after { content: ""; content: none; }
+
+small { font-size: 85%; }
+
+/* Position subscript and superscript content without affecting line-height: h5bp.com/k */
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+
+/* =============================================================================
+   Lists
+   ========================================================================== */
+
+ul, ol { margin: 1em 0; padding: 0 0 0 40px; }
+dd { margin: 0 0 0 40px; }
+nav ul, nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0; }
+
+
+/* =============================================================================
+   Embedded content
+   ========================================================================== */
+
+/*
+ * 1. Improve image quality when scaled in IE7: h5bp.com/d
+ * 2. Remove the gap between images and borders on image containers: h5bp.com/e
+ */
+
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+
+/*
+ * Correct overflow not hidden in IE9
+ */
+
+svg:not(:root) { overflow: hidden; }
+
+
+/* =============================================================================
+   Figures
+   ========================================================================== */
+
+figure { margin: 0; }
+
+
+/* =============================================================================
+   Forms
+   ========================================================================== */
+
+form { margin: 0; }
+fieldset { border: 0; margin: 0; padding: 0; }
+
+/* Indicate that 'label' will shift focus to the associated form element */
+label { cursor: pointer; }
+
+/*
+ * 1. Correct color not inheriting in IE6/7/8/9
+ * 2. Correct alignment displayed oddly in IE6/7
+ */
+
+legend { border: 0; *margin-left: -7px; padding: 0; }
+
+/*
+ * 1. Correct font-size not inheriting in all browsers
+ * 2. Remove margins in FF3/4 S5 Chrome
+ * 3. Define consistent vertical alignment display in all browsers
+ */
+
+button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
+
+/*
+ * 1. Define line-height as normal to match FF3/4 (set using !important in the UA stylesheet)
+ * 2. Correct inner spacing displayed oddly in IE6/7
+ */
+
+button, input { line-height: normal; *overflow: visible; }
+
+/*
+ * Reintroduce inner spacing in 'table' to avoid overlap and whitespace issues in IE6/7
+ */
+
+table button, table input { *overflow: auto; }
+
+/*
+ * 1. Display hand cursor for clickable form elements
+ * 2. Allow styling of clickable form elements in iOS
+ */
+
+button, input[type="button"], input[type="reset"], input[type="submit"], [role="button"] { cursor: pointer; -webkit-appearance: button; }
+
+/*
+ * Consistent box sizing and appearance
+ */
+
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; padding: 0; }
+input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
+input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+/*
+ * Remove inner padding and border in FF3/4: h5bp.com/l
+ */
+
+button::-moz-focus-inner { border: 0; padding: 0; }
+
+/*
+ * 1. Remove default vertical scrollbar in IE6/7/8/9
+ * 2. Allow only vertical resizing
+ */
+
+textarea { overflow: auto; vertical-align: top; resize: vertical; }
+
+/* Colors for form validity */
+input:valid, textarea:valid {  }
+input:invalid, textarea:invalid { background-color: #f0dddd; }
+
+
+/* =============================================================================
+   Tables
+   ========================================================================== */
+
+table { border-collapse: collapse; border-spacing: 0; }
+td { vertical-align: top; }
+
+/* =============================================================================
+   Container
+   ========================================================================== */
+
+#container { width: 100%; height: 100%; position: relative; background-color: #000; }
+.clear { clear: both; }
+
+/* =============================================================================
+   Header
+   ========================================================================== */
+.boxfull { width: 100%; height: 100%; margin: 0 auto; position: relative; }
+.box320 { width: 320px; height: 100%; margin: 0 auto; position: relative; }
+header { width: 100%; height: 59px; margin: 0; padding: 0; position: absolute; top:0; left: 0; z-index: 200; background: transparent url(../img/header/top_bar_bg.png) repeat-x top left; }
+header .box320 { position:relative; height: 50px; /*background-image: url(../img/header/logo.png); background-color: transparent; background-repeat: no-repeat; background-position: center center;*/ }
+header #hpbackbtn { position: relative; top: 4px; float: left; width: 50px; height: 46px; display: block; background: transparent url(../img/header/back_btn.png) no-repeat center center; display: none; z-index: 9999; }
+header #pagetitle { display:block; position:relative; width: 100%; height: 50px; background-image: url(../img/header/logo.png); background-color: transparent; background-repeat: no-repeat; background-position: center center; z-index: 1000; }
+header #sharebtn { float: right; width: 50px; height: 46px; display: none; background: transparent url(../img/header/share_btn.png) no-repeat center center; }
+/* =============================================================================
+   Main
+   ========================================================================== */
+
+#main { width: 100%; height: 100%; margin: 0; z-index: 100; overflow-y: scroll; overflow-x: hidden; }
+#main .space30 { width: 100%; height: 30px; display: block; }
+#main .space65 { width: 100%; height: 65px; display: block; }
+#main .space40 { width: 100%; height: 40px; display: block; }
+#main .space50 { width: 100%; height: 50px; display: block; }
+#main .space70 { width: 100%; height: 70px; display: block; }
+#main .space80 { width: 100%; height: 80px; display: block; }
+#main .space100 { width: 100%; height: 100px; display: block; }
+#main .space130 { width: 100%; height: 130px; display: block; }
+#main .box320 img { margin: 0 auto; }
+
+#hpsliderspot { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+#hpsliderspot ul li { width: 100%; height: 100%; background-color: transparent; background-repeat: no-repeat; background-position: center center; }
+#hpsliderspot ul li .slidecontent { width: 320px; height: 335px; margin: 0 auto; }
+#locationslide { background-image: url('../img/home/location_slide_bg.png'); width: 100%; height: 100%; }
+#recipeslide { background-image: url('../img/home/recipe_slide_bg.png'); width: 100%; height: 100%; }
+#blogslide { background-image: url('../img/home/blog_slide_bg.png'); width: 100%; height: 100%; }
+
+#updating_screen { display: block; }
+#updating_screen div { width: 100%; height: 100%; background-image: url('../img/splashes/update_screen.jpg'); background-repeat: no-repeat; background-position: center center; position: relative; z-index: 9999; }
+#updating_screen div img { position: absolute; bottom: 40px; left: 50%; margin-left: -32px; }
+
+#maps { height: 100%; width: 100%; text-align: center; }
+#map_canvas { height: 100%; width: 100%; }
+
+#dotswrapper { width: 100%; height: 14px; position: absolute; top: 0; left: 0; }
+#dots { width: 60px; height: 14px; margin: 0 auto; }
+#dots ul { width: 60px; height: 14px; margin: 0; padding: 0; list-style-type: none; }
+#dots ul li { width: 20px; height: 14px; background-color: transparent; background-image: url(../img/home/dot_sprite.png); background-repeat: no-repeat; background-position: top center; list-style-type: none; float: left; }
+#dots ul li.on { background-position: bottom center; }
+
+#blogpage { width: 100%; height: 100%; background-image: url('../img/blog/blog_bg.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#blogviewport { width: 320px; height: 100%; position: relative; }
+#blogviewport #singles { display: none; }
+#blogviewport #btns { width: 280px; height: 28px; margin: 20px auto 0; }
+#blogviewport #btns div { width: 58px; height: 28px; display: block; float: right; background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#blogviewport #btns div.prev { background-image: url('../img/blog/blog_prev.png'); display: block; }
+#blogviewport #btns div.next { margin-left: 5px; background-image: url('../img/blog/blog_next.png'); display: block; }
+#blogviewport ul { margin: 0; padding: 15px 0 10px; }
+#blogviewport ul li { color: #fff; list-style-type: none; width: 280px; margin: 0 auto 5px; }
+#blogviewport #bitems {  }
+#blogviewport #bitems ul { margin: 0; padding: 0; }
+#blogviewport #bitems .item { height: 250px; display: none; }
+#blogviewport #bitems .show { display: block; }
+#blogviewport #bitems .item .imgarea .top { width: 280px; height: 12px; background-image: url('../img/blog/blog_asset_top.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#blogviewport #bitems .item .imgarea .middle { width: 280px; background-color: #000; text-align: center; }
+#blogviewport #bitems .item .imgarea .bottom { width: 280px; height: 11px; background-image: url('../img/blog/blog_asset_bottom.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#blogviewport #bitems .item .date { font-family: 'Museo700', serif; font-size: 14px; padding: 5px 0; margin: 0; color: #c07802; }
+#blogviewport #bitems .item .title { font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-size: 18px; line-height: 18px; padding: 0 0 0 30px; margin: 0; color: #fff; font-weight: bold; }
+#blogviewport #bitems .item .content { font-family: 'Museo500', serif; font-size: 14px; padding: 0 0 0 30px; line-height: 21px; color: #fff;}
+#blogviewport #bitems .item .share_this { clear: left; float: left;/*width: 211px; height: 15px; padding: 11px 39px 22px 31px; background: transparent url('../img/blog/share_this_bg.png') no-repeat 0 0; color: #fff; font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-size: 15px; line-height: 15px;*/ }
+#blogviewport #bitems .item .share_this .share_this_txt { float: left; white-space: nowrap; font-size:20px; font-weight:bold; margin: 0 0 15px; }
+#blogviewport #bitems .item .share_this .share_this_icons { /*float: right;*/clear: left; float: left; }
+#blogviewport #bitems .item .share_this .share_this_icons .social_icon { display: block; float: left; width: 55px; height: 55px; margin: 0 10px; background-position: 0 0; }
+#blogviewport #bitems .item .share_this .share_this_icons .facebook { background: transparent url('../img/blog/facebook_icon.png') no-repeat 0 0; margin-left: 0;}
+#blogviewport #bitems .item .share_this .share_this_icons .twitter { background: transparent url('../img/blog/twitter_icon.png') no-repeat 0 0; }
+#blogviewport #bitems .item .share_this .share_this_icons .linkedin { background: transparent url('../img/blog/linkedin_icon.png') no-repeat 0 0; }
+#blogviewport #bitems .item .share_this .share_this_icons .mail{ background: transparent url('../img/blog/mail_icon.png') no-repeat 0 0; margin-right: 0; }
+#blogviewport #list { display: block; }
+#blogviewport #list li .item { height: 57px; background-image: url('../img/blog/blog_item.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#blogviewport #list li .item .title { font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-size: 16px; color: #fff; font-weight: bold; padding: 10px 0 0 15px; }
+#blogviewport #list li .item .date { font-family: 'Museo300', serif; font-size: 14px; color: #fff; padding: 2px 0 0 15px; }
+#blogviewport #list li.odd .item .title { font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-size: 16px; color: #fff; font-weight: bold; padding: 10px 0 0 25px; }
+#blogviewport #list li.odd .item .date { font-family: 'Museo300', serif; font-size: 14px; color: #fff; padding: 2px 0 0 25px; }
+/*
+#blogviewport ul li .item .content { font-family: 'Museo500', serif; font-size: 14px; padding-bottom: 8px; line-height: 21px; color: #fff; padding-left: 30px; }
+#blogviewport ul li .item .readmore a { font-family: 'Museo700', serif; font-size: 16px; width: 280px; height: 48px; background: transparent url(../img/home/readmore_btn.png) no-repeat top left; display: block; }
+*/
+#locationspage { width: 100%; height: 100%; background-image: url('../img/locations/locations_bg.png'); background-color: transparent; background-repeat: no-repeat; background-position: center center; position: relative; }
+#locationshdr { width: 100%; height: 117px; background-image: url('../img/locations/locations_hdr_bg.png'); background-color: transparent; background-repeat: repeat-x; background-position: center center; position: absolute; top: 0; left: 0; z-index: 150; }
+#locationshdr .space57 { width: 100%; height: 57px; }
+/*#filterbtn { float: left; width: 59px; height: 30px; margin-left: 4px; display: block; background-image: url('../img/locations/filter_btn.png'); background-color: transparent; background-repeat: no-repeat; background-position: bottom center; }*/
+#locationsearch { width: 242px; height: 30px; margin: 0 0 0 4px; background-image: url('../img/locations/search_bg.png'); background-color: transparent; background-repeat: no-repeat; background-position: center center; }
+#locationsearch .searchbtn { width: 22px; height: 22px; padding: 4px; background-image: url('../img/locations/search_btn.png'); background-color: transparent; background-repeat: no-repeat; background-position: center center; float: left; }
+#locationsearch #locsearchtxt { width: 185px; height: 22px; padding: 0; margin: 4px 0 0 4px; border: none; float: left; background: transparent; color: #999; font-family: 'Museo300', serif; font-weight: bold; }
+#locationsearch #radiussearch { display: none; }
+#locationsearch #statesearch { display: none; }
+#switchbtn { float: right; width: 59px; height: 30px; margin-right: 4px; display: block; background-image: url('../img/locations/view_switch.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#switchbtn.map { background-position: bottom center; }
+#locationsloader{ display: none; position: absolute; bottom: 44px; width: 100%; height: 24px; padding: 0 0 6px; background-color: #000; color: #FFF; font-size: 12px; line-height: 24px; text-align: center; vertical-align: middle; z-index: 150; }
+
+.info_box_title, #info_box_title { position: relative; padding: 10px 10px 10px 10px; }
+.info_box_title div, #info_box_title div { position: relative; white-space: nowrap; margin-right: 25px; }
+.info_box_title .arrow_right, #info_box_title .arrow_right { position: absolute; top: 0; right: -25px; }
+.info_box_title_no_arrow, #info_box_title_no_arrow { position: relative; padding: 10px 10px 10px 10px; }
+.info_box_title_no_arrow div, #info_box_title_no_arrow div { position: relative; white-space: nowrap; }
+
+#listloc { width: 320px; height: 100%; position: relative; display: none; }
+#loclist { margin: 0 auto; padding: 0; width: 280px; }
+#loclist li { width: 280px; height: 67px; color: #fff; margin-bottom: 5px; list-style-type: none; background: transparent url(../img/locations/list_location_bg.png) no-repeat top left; display: block; }
+#loclist li:nth-child(odd) .title { padding: 7px 25px 0 15px; font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-weight: bold; font-size: 16px; }
+#loclist li:nth-child(odd) .address { padding: 2px 25px 0 15px; font-family: "Museo300"; font-weight: normal; font-size: 14px; }
+#loclist li:nth-child(even) .title { padding: 7px 25px 0 25px; font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-weight: bold; font-size: 16px; }
+#loclist li:nth-child(even) .address { padding: 2px 25px 0 25px; font-family: "Museo300"; font-weight: normal; font-size: 14px; }
+
+#locationspage #single { display: none; }
+
+
+#locationspage #single #litem { width: 280px; margin: 10px auto 0; padding: 0; }
+#locationspage #single #litem ul { margin: 0; padding: 0; }
+#locationspage #single #litem .item { height: 355px; list-style-type: none; margin: 0 auto; padding: 0; display: block; }
+/*
+#locationspage #single #litem .item .imgarea .top { width: 280px; height: 12px; background-image: url('../img/blog/blog_asset_top.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#locationspage #single #litem .item .imgarea .middle { width: 280px; background-color: #000; text-align: center; }
+#locationspage #single #litem .item .imgarea .bottom { width: 280px; height: 11px; background-image: url('../img/blog/blog_asset_bottom.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+*/
+#locationspage #single #litem .item .date { font-family: 'Museo700', serif; font-size: 14px; padding: 5px 0; margin: 0; color: #c07802; }
+#locationspage #single #litem .item .title { font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-size: 18px; line-height: 18px; padding: 0 0 5px 0; margin: 0; color: #fff; font-weight: bold; }
+#locationspage #single #litem .item .content { font-family: 'Museo300', serif; font-size: 14px; line-height: 18px; padding: 0 0 12px 30px; line-height: 21px; color: #fff;}
+#locationspage #single #litem .item .content p { margin: 0; padding: 10px 0; }
+#locationspage #single #litem .item .content .content_section_title { color: #fff; font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-size: 14px; font-weight: bold; line-height: 18px; }
+#locationspage #single #litem .item .content .content_section { padding: 0 20px 14px; }
+#locationspage #single #litem .item .content .last_content_section { padding: 0 20px; }
+#locationspage #single #litem .item .content .hr { border-bottom: 1px dashed #FFF; padding: 0 20px 8px; margin: 0 0 14px; }
+#locationspage #single #litem .item .content .loc_a { position: relative; color: #fff; font-family: Arial, Helvetica, serif; font-size: 14px; font-weight: bold; line-height: 18px; text-decoration: none; }
+#locationspage #single #litem .item .content .loc_a .arrow_right { position: relative; top: -2px; left: 5px; vertical-align: middle; }
+
+#locationspage #single #litem .item .contentarea { margin-top: 10px; width: 320px; height: 100%; position: relative; }
+#locationspage #single #litem .item .contentarea .contenttop { width: 280px; height: 23px; background-image: url('../img/recipes/content_top.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#locationspage #single #litem .item .contentarea .content { width: 260px; background-color: #000; padding: 0 10px; background-image: url('../img/recipes/content_bg.png'); background-color: transparent; background-repeat: repeat-y; background-position: top center; }
+#locationspage #single #litem .item .contentarea .contentbottom { width: 280px; height: 23px; background-image: url('../img/recipes/content_bottom.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+
+#recipespage { width: 100%; height: 100%; background-image: url('../img/recipes/recipes_bg.png'); background-color: transparent; background-repeat: no-repeat; background-position: center center; position: relative; }
+#recipeshdr { width: 100%; height: 117px; background-image: url('../img/recipes/recipes_hdr_bg.png'); background-color: transparent; background-repeat: repeat-x; background-position: center center; position: absolute; top: 0; left: 0; z-index: 150; }
+#recipeshdr .space57 { width: 100%; height: 57px; }
+/*#filterbtn { float: left; width: 59px; height: 30px; margin-left: 4px; display: block; background-image: url('../img/locations/filter_btn.png'); background-color: transparent; background-repeat: no-repeat; background-position: bottom center; }*/
+#recipesearch { width: 242px; height: 30px; margin: 0 auto; background-image: url('../img/recipes/search_bg.png'); background-color: transparent; background-repeat: no-repeat; background-position: center center; }
+#recipesearch .searchbtn { width: 22px; height: 22px; padding: 4px; background-image: url('../img/recipes/search_btn.png'); background-color: transparent; background-repeat: no-repeat; background-position: center center; float: left; }
+#recipesearch #recsearchtxt { width: 185px; height: 22px; padding: 0; margin: 4px 0 0 4px; border: none; float: left; background: transparent; color: #999; font-family: 'Museo300', serif; font-weight: bold;}
+
+#listrec { width: 320px; height: 100%; position: relative; display: none; }
+#reclist { margin: 0 auto; padding: 0; width: 280px; }
+#reclist .no_results_found { color: #FFF; font-size: 18px; font-weight: bold; margin: 20px 0; text-align: center; width: 100%; }
+#reclist li { width: 280px; height: 57px; color: #fff; margin-bottom: 5px; list-style-type: none; background: transparent url(../img/locations/list_location_bg.png) no-repeat top left; display: block; }
+#reclist li .item { width: 100%; height: 100%; }
+#reclist li.odd .title { padding: 10px 20px 0 25px; font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-weight: bold; font-size: 16px; }
+#reclist li.odd .address { padding: 2px 0 0 25px; font-family: "Museo300"; font-weight: normal; font-size: 14px; }
+#reclist li .title { padding: 10px 10px 0 15px; font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-weight: bold; font-size: 16px; }
+#reclist li .address { padding: 2px 0 0 15px; font-family: "Museo300"; font-weight: normal; font-size: 14px; }
+
+#recipespage #single { display: none; }
+
+#recipespage #single #btns { width: 280px; height: 28px; margin: 20px auto 0; }
+#recipespage #single #btns div { height: 28px; display: block; float: right; background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#recipespage #single #btns div.overviewbtn { width: 75px; background-image: url('../img/recipes/Overview.png'); display: block; }
+#recipespage #single #btns div.ingredientsbtn { width: 81px; margin-left: 5px; background-image: url('../img/recipes/Ingredients.png'); display: block; }
+#recipespage #single #btns div.directionsbtn { width: 81px; margin-left: 5px; background-image: url('../img/recipes/Directions.png'); display: block; }
+#recipespage #single #btns div.on { background-position: bottom center; }
+
+
+#recipespage #single #ritem { width: 280px; margin: 10px auto 0; padding: 0; }
+#recipespage #single #ritem ul { margin: 0; padding: 0; }
+#recipespage #single #ritem .item { height: 255px; list-style-type: none; margin: 0 auto; padding: 0; display: block; }
+#recipespage #single #ritem .shower { display: block; }
+#recipespage #single #ritem .shownone { display: none; }
+#recipespage #single #ritem .item .imgarea .top { width: 280px; height: 12px; background-image: url('../img/blog/blog_asset_top.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#recipespage #single #ritem .item .imgarea .middle { width: 280px; background-color: #000; text-align: center; }
+#recipespage #single #ritem .item .imgarea .bottom { width: 280px; height: 11px; background-image: url('../img/blog/blog_asset_bottom.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#recipespage #single #ritem .item .date { font-family: 'Museo700', serif; font-size: 14px; padding: 5px 0; margin: 0; color: #c07802; }
+#recipespage #single #ritem .item .title { font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-size: 18px; line-height: 18px; padding: 0 0 5px 0; margin: 0; color: #fff; font-weight: bold; }
+#recipespage #single #ritem .item .content { font-family: 'Museo300', serif; font-size: 14px; line-height: 18px; padding: 0 0 12px 30px; line-height: 21px; color: #fff;}
+#recipespage #single #ritem .item .content p { margin: 0; padding: 0 0 20px; }
+#recipespage #single #ritem .item .content .content_section_title { color: #fff; font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-size: 14px; font-weight: bold; line-height: 18px; }
+#recipespage #single #ritem .item .content .content_section { padding: 0 20px 14px; }
+#recipespage #single #ritem .item .content .last_content_section { padding: 0 20px; }
+#recipespage #single #ritem .item .content .hr { border-bottom: 1px dashed #FFF; padding: 0 20px 8px; margin: 0 0 14px; }
+
+#recipespage #single #ritem .item .contentarea { margin-top: 10px; width: 320px; height: 100%; position: relative; }
+#recipespage #single #ritem .item .contentarea .contenttop { width: 280px; height: 23px; background-image: url('../img/recipes/content_top.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+#recipespage #single #ritem .item .contentarea .content { width: 260px; background-color: #000; padding: 0 10px; background-image: url('../img/recipes/content_bg.png'); background-color: transparent; background-repeat: repeat-y; background-position: top center; }
+#recipespage #single #ritem .item .contentarea .contentbottom { width: 280px; height: 23px; background-image: url('../img/recipes/content_bottom.png'); background-color: transparent; background-repeat: no-repeat; background-position: top center; }
+
+#recipefilters { width: 280px; margin: 0 auto; position: relative; display: block; }
+#recipefilters .filterlist { width: 100%; padding: 13px 0; border-bottom:1px dashed #fff; margin-bottom: 5px; }
+#recipefilters .filterlist .rectitlearea { width: 100%; margin-bottom: 6px; }
+#recipefilters .filterlist .rectitlearea .rectitle { font-family: HelveticaNeue-CondensedBold, Helvetica, Arial, serif; font-weight: bold; font-size: 20px; line-height: 19px; color: #fff; float: left; }
+#recipefilters .filterlist .rectitlearea .recbtn { display: none; width: 19px; height: 19px; background-image: url('../img/recipes/cat_arrow.png'); background-color: transparent; background-repeat: no-repeat; background-position: bottom center; float: right; }
+#recipefilters .filterlist .recicons .recicon { width: 75px; height: 79px; margin: 0 9px; background-color: transparent; background-repeat: no-repeat; background-position: bottom center; float: left; }
+#recipefilters .filterlist .recicons .reciconon { background-position: top center; }
+
+#beef { background-image: url('../img/recipes/icons/protein/ing_beef_btn.png'); }
+#chicken { background-image: url('../img/recipes/icons/protein/ing_chicken_btn.png'); }
+#fish { background-image: url('../img/recipes/icons/protein/ing_fish_btn.png'); }
+#game { background-image: url('../img/recipes/icons/protein/ing_game_btn.png'); }
+#pork { background-image: url('../img/recipes/icons/protein/ing_pork_btn.png'); }
+#veggie { background-image: url('../img/recipes/icons/protein/ing_veggie_btn.png'); }
+#breakfast { background-image: url('../img/recipes/icons/dish/dish_breakfast_btn.png'); }
+#cocktails { background-image: url('../img/recipes/icons/dish/dish_cocktails_btn.png'); }
+#dessert { background-image: url('../img/recipes/icons/dish/dish_dessert_btn.png'); }
+#maind { background-image: url('../img/recipes/icons/dish/dish_main_btn.png'); }
+#pasta { background-image: url('../img/recipes/icons/dish/dish_pasta_btn.png'); }
+#quick { background-image: url('../img/recipes/icons/dish/dish_quick_btn.png'); }
+#sandwich { background-image: url('../img/recipes/icons/dish/dish_sandwich_btn.png'); }
+#sides { background-image: url('../img/recipes/icons/dish/dish_sides_btn.png'); }
+#soup { background-image: url('../img/recipes/icons/dish/dish_soup_btn.png'); }
+#grilling { background-image: url('../img/recipes/icons/occasion/occ_grilling_btn.png'); }
+#holidays { background-image: url('../img/recipes/icons/occasion/occ_holidays_btn.png'); }
+#superbowl { background-image: url('../img/recipes/icons/occasion/occ_super-bowl_btn.png'); }
+#tailgate { background-image: url('../img/recipes/icons/occasion/occ_tailgate_btn.png'); }
+#thanksgiving { background-image: url('../img/recipes/icons/occasion/occ_thanksgiving_btn.png'); }
+
+#recfilterbtnarea { height: 57px; width: 100%; position: absolute; bottom: 55px; left: 0; z-index: 250; }
+#recfilterbtn { height: 57px; width: 280px; margin: 0 auto; background-image: url('../img/recipes/filter_bg.png'); background-color: transparent; background-repeat: no-repeat; background-position: center center; }
+#recfilterbtn .title { padding: 10px 0 0 20px; color: #fff; font-weight: bold; font-size: 16px; }
+#recfilterbtn .terms { padding: 4px 0 0 20px; }
+#recfilterbtn .terms div { color: #fff; font-size: 13px; float: left; }
+#recfilterbtn .terms .plusspace { padding: 0 5px; display: none; }
+#recfilterbtn .terms .plusspaceon { padding: 0 5px; display: block; }
+/* =============================================================================
+   Footer
+   ========================================================================== */
+
+footer { width: 100%; height: 56px;  margin: 0; padding: 0; position: absolute; bottom:0; left: 0;  z-index: 200; background: transparent url(../img/footer/bottom_bar_bg.png) repeat-x bottom left; }
+footer .box320 { height: 49px; margin-top: 7px; }
+footer a { width: 80px; height: 49px; display: block; float: left; background-color: transparent; background-repeat: no-repeat; background-position: top left; }
+footer a.on { background-position: bottom left; }
+footer #homebtn { background-image: url(../img/footer/home_btn.png); }
+footer #locationsbtn { background-image: url(../img/footer/locations_btn.png); }
+footer #recipesbtn { background-image: url(../img/footer/recipes_btn.png); }
+footer #blogbtn { background-image: url(../img/footer/blog_btn.png); }
+/* ==|== primary styles =====================================================
+   Author:
+   ========================================================================== */
+
+
+.swipe ul { margin: 0; padding: 0; width: 100%; height: 100%; }
+.swipe li { display: none; width: 100%; height: 100%; }
+.swipe li:first-child { display: block; }
+.swipe li .item { width: 280px; margin: 0 auto; }
+.swipe li .item .date { font-family: 'Museo700', serif; font-size: 14px; padding-bottom: 5px; color: #c07802; }
+.swipe li .item .title { font-family: 'Museo700', serif; font-size: 18px; padding-bottom: 8px; color: #fff; font-weight: bold; padding-left: 30px; }
+.swipe li .item .content { font-family: 'Museo500', serif; font-size: 14px; padding-bottom: 8px; line-height: 21px; color: #fff; padding-left: 30px; }
+.swipe li .item .readmore a { font-family: 'Museo700', serif; font-size: 16px; width: 280px; height: 48px; background: transparent url(../img/home/readmore_btn.png) no-repeat top left; display: block; }
+
+
+/* =============================================================================
+   Pages
+   ========================================================================== */
+
+#main .page { display: none; }
+#main .pageview { display: block; }
+
+
+
+
+
+
+
+
+
+
+/*
+ * Media queries for responsive design github.com/h5bp/mobile-boilerplate/wiki/The-Style
+ */
+
+
+/* Styles for desktop and large screen ----------- */
+
+/*styles for 800px and up!*/
+@media only screen and (min-width: 800px) {
+  /* Styles */
+}/*/mediaquery*/
+
+
+/* iPhone 4, Opera Mobile 11 and other high pixel ratio devices ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 1.0),
+only screen and (-o-min-device-pixel-ratio: 1),
+only screen and (min--moz-device-pixel-ratio: 1.0),
+only screen and (min-device-pixel-ratio: 1.0) {
+  /* Styles */
+#updating_screen div { background-size: 320px 480px; }
+header { background: transparent url(../img/header/top_bar_bg.png) repeat-x top left; background-size: 320px 59px; }
+header #hpbackbtn { background-size: 28px 12px; }
+header #pagetitle { background-size: 60px 38px; }
+header #sharebtn { background-size: 34px 30px; }
+footer { background: transparent url(../img/footer/bottom_bar_bg.png) repeat-x bottom left; background-size: 320px 56px; }
+footer #homebtn { background-size: 80px 98px; }
+footer #locationsbtn { background-size: 80px 98px; }
+footer #recipesbtn { background-size: 80px 98px; }
+footer #blogbtn { background-size: 80px 98px; }
+li .item .readmore a { background: transparent url(../img/home/readmore_btn.png) no-repeat top left; background-size: 280px 48px; }
+#dots ul li { background-color: transparent; background-image: url(../img/home/dot_sprite.png); background-repeat: no-repeat; background-position: top center; background-size: 14px 28px; }
+#locationslide { background-size: 320px 480px; }
+#recipeslide { background-size: 320px 480px; }
+#blogslide { background-size: 320px 480px; }
+#blogpage{ background-size: 320px 480px; }
+#blogviewport ul li .item { background-size: 280px 57px; }
+#blogviewport #btns div { background-size: 58px 28px; }
+#blogviewport #bitems .item .share_this { background-size: 281px 48px; }
+#blogviewport #bitems .item .share_this .share_this_icons .social_icon { background-size: 55px 111px; }
+#locationspage{ background-size: 320px 480px; }
+#recipespage{ background-size: 320px 480px; }
+#locationshdr{ background-size: 320px 98px; }
+#filterbtn { width: 59px; height: 30px; background-size: 59px 30px; }
+#locationsearch { width: 242px; height: 30px; background-size: 242px 30px; }
+#locationsearch .searchbtn { background-size: 22px 22px; }
+#switchbtn { width: 59px; height: 30px; background-size: 59px 60px; }
+#loclist li { width: 280px; height: 67px; background-size: 280px 67px; }
+#locationspage #single #litem .item .imgarea .top { background-size: 280px 12px; }
+#locationspage #single #litem .item .imgarea .bottom { background-size: 280px 11px; }
+#locationspage #single #litem .item .contentarea .contenttop { background-size: 280px 23px; }
+#locationspage #single #litem .item .contentarea .content { background-size: 280px 9px; }
+#locationspage #single #litem .item .contentarea .contentbottom { background-size: 280px 23px; }
+
+#blogviewport #bitems .item .imgarea .top { background-size: 280px 12px; }
+#blogviewport #bitems .item .imgarea .bottom { background-size: 280px 11px; }
+
+#recipeshdr{ background-size: 320px 98px; }
+#recipesearch { width: 279px; height: 30px; background-size: 279px 30px; }
+#recipesearch .searchbtn { background-size: 22px 22px; }
+#recipefilters .filterlist .rectitlearea .recbtn { width: 19px; height: 19px; background-size: 19px 38px; }
+#recipefilters .filterlist .recicons .recicon { width: 75px; height: 79px; background-size: 75px 158px; }
+#recfilterbtn { background-size: 280px 57px; }
+#reclist li { width: 280px; height: 57px; background-size: 280px 57px; }
+#recipespage #single #ritem .item .imgarea .top { background-size: 280px 12px; }
+#recipespage #single #ritem .item .imgarea .bottom { background-size: 280px 11px; }
+#recipespage #single #btns div.overviewbtn { background-size: 75px 56px; }
+#recipespage #single #btns div.ingredientsbtn { background-size: 81px 56px; }
+#recipespage #single #btns div.directionsbtn { background-size: 81px 56px; }
+#recipespage #single #ritem .item .contentarea .contenttop { background-size: 280px 23px; }
+#recipespage #single #ritem .item .contentarea .content { background-size: 280px 9px; }
+#recipespage #single #ritem .item .contentarea .contentbottom { background-size: 280px 23px; }
+}
+
+
+
+/* ==|== non-semantic helper classes ========================================
+   Please define your styles before this section.
+   ========================================================================== */
+
+/* prevent callout */
+.nocallout {-webkit-touch-callout: none;}
+
+/* A hack for HTML5 contenteditable attribute on mobile */
+textarea[contenteditable] {-webkit-appearance: none;}
+
+/* A workaround for S60 3.x and 5.0 devices which do not animated gif images if they have been set as display: none */
+.gifhidden {position: absolute; left: -100%;}
+
+/* For image replacement */
+.ir { display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; }
+.ir br { display: none; }
+
+/* Hide from both screenreaders and browsers: h5bp.com/u */
+.hidden { display: none !important; visibility: hidden; }
+
+/* Hide only visually, but have it available for screenreaders: h5bp.com/v */
+.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p */
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible { visibility: hidden; }
+
+/* Contain floats: h5bp.com/q */
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+
+* { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+
+
+/* ==|== print styles =======================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+  * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } /* Black prints faster: h5bp.com/s */
+  a, a:visited { text-decoration: underline; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }  /* Don't show links for images, or javascript/internal links */
+  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+  thead { display: table-header-group; } /* h5bp.com/t */
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page { margin: 0.5cm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}

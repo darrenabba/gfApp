@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Guy Fieri</title>
+    <meta name="description" content="This is a description. Not sure if it displays anywhere">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cleartype" content="on">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body onLoad="onLoad()" onUnload="onUnload()">
+    <div id="container">
+      <!-- <div id="updating_screen" class="boxfull">
+        <div>
+          <img src="img/splashes/loader.gif" width="64" height="7" />
+        </div>
+      </div> -->
+      <div id="main" role="main">
+<!-- HOME - START -->
+        <div class="boxfull page pageview" id="homepage">
+          <div id="hpsliderspot" class="swipe">
+            <ul>
+              <li id="locationslide">
+                <div class="slidecontent">
+                  <img id="locmore" class="calltoaction" rel="locationspage" src="img/home/locations_slide.png" width="320" height="335" />
+                </div>
+              </li>
+              <li id="recipeslide">
+                <div class="slidecontent">
+                  <img id="recmore" class="calltoaction" rel="recipespage" src="img/home/recipe_slide.png" width="320" height="337" />
+                </div>
+              </li>
+              <li id="blogslide">
+                <div class="slidecontent">
+                  <img src="img/home/blog_hdr.png" width="315" height="101" />
+                  <div class="item">
+                    <div class="date">July 15, 2012</div>
+                    <div class="title">Welcome to the Backstage Pass Blog</div>
+                    <div class="content">Keep up to date with Guy. For the best experience and the latest news, you'll need to grab an Internet connection.</div>
+                    <div class="readmore"><a href="javascript: void(0);" rel="blogpage" id="blomore"></a></div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="dotswrapper">
+            <div id="dots">
+              <ul>
+                <li class="dot on"></li>
+                <li class="dot"></li>
+                <li class="dot"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+<!-- HOME - END   -->
+
+
+<!-- LOCATION - START -->
+        <div class="page pageview" id="locationspage">
+          <div id="listloc" class="box320">
+            <div id='locscroller'>
+              <div class="space100"></div>
+              <ul id="loclist">
+                <li class="odd"><div class="title">Place 1</div><div class="address">123 Test St.</div></li>
+                <li><div class="title">Another Place</div><div class="address">1975 Black Sand Dr.</div></li>
+                <li class="odd"><div class="title">Place Around Here</div><div class="address">50 W. Liberty St.</div></li>
+                <li><div class="title">Place 4</div><div class="address">54321 W. Hollywood Blvd.</div></li>
+              </ul>
+              <div class="space70"></div>
+            </div>
+          </div>
+          <div id="map_canvas"></div>
+          <div id="locationshdr">
+            <div class="box320">
+              <div class="space57"></div>
+              <!-- <a href="javascript: void(0);" id="filterbtn"></a> -->
+              <a href="javascript: void(0);" id="switchbtn" class="map"></a>
+              <div id="locationsearch">
+                <div class="searchbtn" onClick="searchLocationData()"></div>
+                <form action="javascript:searchLocationData();">
+                  <input type="search" name="locsearchtxt" id="locsearchtxt" value="City, ST or Zip" onFocus="locSearchText()" onBlur="locSearchText()" />
+                </form>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div id="locationsloader">Loading <img src="img/locations/loader.gif" width="64" height="7" /></div>
+<!-- LOCATION - DETAIL -->
+          <div id="single" class="box320">
+            <div class="space50"></div>
+            <ul id="litem">
+              <li class="item show" id="lili">
+                <div>
+
+                      <div class="title"></div>
+                      <div id="overview">
+                        <!-- div class="imgarea">
+                        </div -->
+                        <div class="contentarea">
+                          <div class="contenttop"></div>
+                          <div class="content"></div>
+                          <div class="contentbottom"></div>
+                        </div>
+                        <div class="space30"></div>
+                      </div>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+<!-- LOCATION - END   -->
+
+
+<!-- RECIPE - START -->
+        <div class="page pageview" id="recipespage">
+<!-- Rec Results -->
+          <div id="listrec" class="box320">
+            <div id='recscroller'>
+              <div class="space100"></div>
+              <ul id="reclist">
+                <li class="odd"><div class="title">Place 1</div><div class="address">123 Test St.</div></li>
+                <li><div class="title">Another Place</div><div class="address">1975 Black Sand Dr.</div></li>
+                <li class="odd"><div class="title">Place Around Here</div><div class="address">50 W. Liberty St.</div></li>
+                <li><div class="title">Place 4</div><div class="address">54321 W. Hollywood Blvd.</div></li>
+              </ul>
+              <div class="space50"></div>
+            </div>
+          </div>
+<!-- Rec Detail -->
+          <div id="single" class="box320">
+            <div class="space100"></div>
+            <div id="btns">
+              <div class="directionsbtn" rel="directions"></div>
+              <div class="ingredientsbtn" rel="ingredients"></div>
+              <div class="overviewbtn on" rel="overview"></div>
+            </div>
+            <div class="clear"></div>
+            <ul id="ritem">
+              <li class="item show" id="rili">
+                <div>
+
+                      <div class="title"></div>
+                      <div id="overview" class="shower">
+                        <div class="imgarea">
+                        </div>
+                        <div class="contentarea">
+                          <div class="contenttop"></div>
+                          <div class="content"></div>
+                          <div class="contentbottom"></div>
+                        </div>
+                        <div class="space80"></div>
+                      </div>
+                      <div id="ingredients" class="shownone">
+                        <div class="contentarea">
+                          <div class="contenttop"></div>
+                          <div class="content"></div>
+                          <div class="contentbottom"></div>
+                        </div>
+                        <div class="space80"></div>
+                      </div>
+                      <div id="directions" class="shownone">
+                        <div class="contentarea">
+                          <div class="contenttop"></div>
+                          <div class="content"></div>
+                          <div class="contentbottom"></div>
+                        </div>
+                        <div class="space80"></div>
+                      </div>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+<!-- Rec Filters -->
+          <div id="recipefilters">
+            <div id="recfilterscoller">
+              <div class="space100"></div>
+              <div class="filterlist" id="recingredients">
+                <div class="rectitlearea">
+                  <div class="rectitle">Ingredients</div>
+                  <div class="recbtn"></div>
+                  <div class="clear"></div>
+                </div>
+                <div class="recicons">
+                  <div class="recicon ing" id="beef" rel="Beef"></div>
+                  <div class="recicon ing" id="chicken" rel="Chicken"></div>
+                  <div class="recicon ing" id="fish" rel="Fish"></div>
+                  <div class="recicon ing" id="game" rel="Game"></div>
+                  <div class="recicon ing" id="pork" rel="Pork"></div>
+                  <div class="recicon ing" id="veggie" rel="Veggie"></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div class="filterlist" id="recdish">
+                <div class="rectitlearea">
+                  <div class="rectitle">Dish</div>
+                  <div class="recbtn"></div>
+                  <div class="clear"></div>
+                </div>
+                <div class="recicons">
+                  <div class="recicon dsh" id="breakfast" rel="Breakfast"></div>
+                  <div class="recicon dsh" id="cocktails" rel="Cocktails"></div>
+                  <div class="recicon dsh" id="dessert" rel="Dessert"></div>
+                  <div class="recicon dsh" id="maind" rel="Main"></div>
+                  <div class="recicon dsh" id="pasta" rel="Pasta"></div>
+                  <div class="recicon dsh" id="quick" rel="Quick"></div>
+                  <div class="recicon dsh" id="sandwich" rel="Sandwich"></div>
+                  <div class="recicon dsh" id="sides" rel="Sides"></div>
+                  <div class="recicon dsh" id="soup" rel="Soup/Salads"></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div class="filterlist" id="recoccasion">
+                <div class="rectitlearea">
+                  <div class="rectitle">Occasion</div>
+                  <div class="recbtn"></div>
+                  <div class="clear"></div>
+                </div>
+                <div class="recicons">
+                  <div class="recicon occ" id="grilling" rel="Grilling"></div>
+                  <div class="recicon occ" id="holidays" rel="Holidays"></div>
+                  <div class="recicon occ" id="superbowl" rel="Super Bowl"></div>
+                  <div class="recicon occ" id="tailgate" rel="Tailgate"></div>
+                  <div class="recicon occ" id="thanksgiving" rel="Thanksgiving"></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+
+              <div class="space65"></div>
+              <div class="space65"></div>
+            </div>
+          </div>
+          <div id="recipeshdr">
+            <div class="box320">
+              <div class="space57"></div>
+              <div id="recipesearch">
+                <div class="searchbtn" onClick="searchRecipeData()"></div>
+                <form action="javascript:searchRecipeData();">
+                	<input type="search" name="recsearchtxt" id="recsearchtxt" value="Search Recipes" onFocus="recSearchText()" onBlur="recSearchText()" />
+                </form>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div id="recfilterbtnarea">
+            <div id="recfilterbtn">
+              <div class="title">Search by:</div>
+              <div class="terms">
+                <div id="ingterm"></div>
+                <div class="plusspace" id="ps1">+</div>
+                <div id="dshterm"></div>
+                <div class="plusspace" id="ps2">+</div>
+                <div id="occterm"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- RECIPE - END   -->
+
+
+<!-- BLOG - START -->
+        <div class="page pageview" id="blogpage">
+          <div class="box320">
+            <div class="space40"></div>
+            <div id="blogviewport">
+              <ul id="list">
+                <li>
+                  <div class="item" rel="bi000">
+                    <div class="title">Welcome to the Backstage Pass Blog</div>
+                    <div class="date">July 15, 2012</div>
+                  </div>
+                </li>
+              </ul>
+              <div id="singles">
+                <div id="btns">
+                  <div class="next"></div>
+                  <div class="prev"></div>
+                </div>
+                <div class="clear"></div>
+                <ul id="bitems">
+                  <li class="item show" id="bi000">
+                    <div>
+                      <ul>
+                        <li>
+                          <div class="imgarea">
+                            <div class="top"></div>
+                            <div class="middle"><img src="img/temp_imgs/blog_asset.png" width="270" /></div>
+                            <div class="bottom"></div>
+                          </div>
+                          <div class="date">July 15, 2012</div>
+                          <div class="title">Welcome to the Backstage Pass Blog</div>
+                          <div class="content">Keep up to date with Guy. For the best experience and the latest news, you'll need to grab an Internet connection.</div>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- BLOG - END   -->
+      </div>
+      <header>
+        <div class="box320">
+        <a href="javascript: void(0);" rel="homepage" id="hpbackbtn"></a>
+        <a href="javascript: void(0);" id="pagetitle"></a>
+        <!-- <a href="javascript: void(0);" id="sharebtn"></a> -->
+        <div class="clear"></div>
+        </div>
+      </header>
+      <footer>
+        <div class="box320">
+          <a href="javascript: void(0);" rel="homepage" class="on" id="homebtn"></a>
+          <a href="javascript: void(0);" rel="locationspage" id="locationsbtn"></a>
+          <a href="javascript: void(0);" rel="recipespage" id="recipesbtn"></a>
+          <a href="javascript: void(0);" rel="blogpage" id="blogbtn"></a>
+        </div>
+      </footer>
+    </div>
+    <script src="phonegap.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDmTFLX0FbUxjEGTgFamWqC27FMtE60FEE&sensor=true"></script>
+    <script src="js/childbrowser.js"></script>
+    <script src="js/libs/modernizr-2.0.6.min.js"></script>
+    <script src="js/libs/jquery-1.7.1.min.js"></script>
+    <script src="js/libs/iscroll-lite.js"></script>
+    <script src="js/helper.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/device.js"></script>
+    <script src="js/maps.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/infobox.js"></script>
+  </body>
+</html>
