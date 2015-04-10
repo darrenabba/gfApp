@@ -60,8 +60,8 @@
         <gap:splash src="img/splashes/startup-retina-big.png" gap:platform="android" gap:density="mdpi" />
         <gap:splash src="img/splashes/startup-retina-big.png" gap:platform="android" gap:density="hdpi" />
      
-        <content src="index.html" />
-        <access origin="http://jeremycallahan.com" />
+        <access origin="http://www.jeremycallahan.com/gfApp" />
+        <access origin="http://jeremycallahan.com/gfApp" />
         <access origin="http://maps.google.com" />
         <access origin="*" />
         <access uri="*"/>
