@@ -246,7 +246,7 @@ header #sharebtn { float: right; width: 50px; height: 46px; display: none; backg
 
 #hpsliderspot { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
 #hpsliderspot ul li { width: 100%; height: 100%; background-color: transparent; background-repeat: no-repeat; background-position: center center; }
-#hpsliderspot ul li .slidecontent { width: 320px; height: 335px; margin: 0 auto; }
+#hpsliderspot ul li .slidecontent { width: 320px; height: 60%; margin: 0 auto; }
 #locationslide { background-image: url('../img/home/location_slide_bg.png'); width: 100%; height: 100%; }
 #recipeslide { background-image: url('../img/home/recipe_slide_bg.png'); width: 100%; height: 100%; }
 #blogslide { background-image: url('../img/home/blog_slide_bg.png'); width: 100%; height: 100%; }
@@ -465,7 +465,7 @@ footer #blogbtn { background-image: url(../img/footer/blog_btn.png); }
 .swipe li .item .date { font-family: 'Museo700', serif; font-size: 14px; padding-bottom: 5px; color: #c07802; }
 .swipe li .item .title { font-family: 'Museo700', serif; font-size: 18px; padding-bottom: 8px; color: #fff; font-weight: bold; padding-left: 30px; }
 .swipe li .item .content { font-family: 'Museo500', serif; font-size: 14px; padding-bottom: 8px; line-height: 21px; color: #fff; padding-left: 30px; }
-.swipe li .item .readmore a { font-family: 'Museo700', serif; font-size: 16px; width: 280px; height: 48px; background: transparent url(../img/home/readmore_btn.png) no-repeat top left; display: block; }
+.swipe li .item .readmore a { font-family: 'Museo700', serif; font-size: 16px; width: 280px; height: 83px; background: transparent url(../img/home/readmore_btn.png) no-repeat top left; display: block; }
 
 
 /* =============================================================================
@@ -558,6 +558,12 @@ li .item .readmore a { background: transparent url(../img/home/readmore_btn.png)
 #recipespage #single #ritem .item .contentarea .contentbottom { background-size: 280px 23px; }
 }
 
+
+@media (min-height:712px)  {
+   #recipefilters {
+     width: 92%;
+   }
+}
 
 
 /* ==|== non-semantic helper classes ========================================

@@ -11,7 +11,7 @@
             Guy Fieri Mobile Application
         </description>
         
-        <author href="http:/www.jeremycallahan.com" email="jeremy@jeremycallahan.com">
+        <author href="http://www.guyfieri.com/" email="jeremy@jeremycallahan.com">
             Guy Fieri
         </author>
         
@@ -60,8 +60,8 @@
         <gap:splash src="img/splashes/startup-retina-big.png" gap:platform="android" gap:density="mdpi" />
         <gap:splash src="img/splashes/startup-retina-big.png" gap:platform="android" gap:density="hdpi" />
      
-        <access origin="http://www.jeremycallahan.com/gfApp" />
-        <access origin="http://jeremycallahan.com/gfApp" />
+        <access origin="http://www.guyfieri.com/" />
+        <access origin="http://guyfieri.com" />
         <access origin="http://maps.google.com" />
         <access origin="*" />
         <access uri="*"/>

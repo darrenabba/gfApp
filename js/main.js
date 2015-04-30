@@ -3,7 +3,7 @@
   }
   
   function onUnload() {
-	gaPlugin.exit(GAExitResultHandler,GAExitErrorHandler);
+	 gaPlugin.exit(GAExitResultHandler,GAExitErrorHandler);
   }
 
   var platform = '';
@@ -335,7 +335,7 @@
           return false;
         });
 	  } else if(type == 'reset' || !locationsSearchDone){
-		checkConnection(false);
+		    checkConnection(false);
         relocate(true);
 	  }
 	} else {
