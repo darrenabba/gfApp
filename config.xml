@@ -23,6 +23,7 @@
         <gap:plugin name="org.apache.cordova.dialogs" />
         <gap:plugin name="org.apache.cordova.file" />
         <gap:plugin name="com.phonegap.plugins.childbrowser" />
+        <gap:plugin name="com.adobe.plugins.gaplugin" />
 
         <preference name="target-device" value="universal" />
         <preference name="orientation" value="portrait" />
