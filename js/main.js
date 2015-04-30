@@ -56,8 +56,8 @@
   var recUpdating = true;
 
   function onDeviceReady(){
-    gaPlugin = window.plugins.gaPlugin;
-    gaPlugin.init(GASuccessHandler, GAErrorHandler, "UA-37376566-2", 10);
+    //gaPlugin = window.plugins.gaPlugin;
+    //gaPlugin.init(GASuccessHandler, GAErrorHandler, "UA-37376566-2", 10);
     platform = device.platform;
     setRecipeBtnHack(platform);
     loaddb();

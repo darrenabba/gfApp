@@ -3,15 +3,18 @@ function loaddb(){
   if(db = window.openDatabase("guydb", "1.0", "GuyFieriAppData", 5000000)){
     dbexists = true;
   }
+  console.log('loaddb ran');
 }
 
 function checkUpdateData(){
   db.transaction(function(tx){
     tx.executeSql('SELECT lastupdate, datetime(\'now\') AS now, strftime(\'%s\',\'now\') - strftime(\'%s\',lastupdate) AS difference FROM updates LIMIT 1', [], loadUpdateData, errorUpdateData);
   });
+  console.log('checkUpdateData Ran');
 }
 
 function loadUpdateData(tx, results){
+  console.log('loadUpdateData Ran');
   if(results.rows.length == 1){
     if(results.rows.item(0).difference >= dbupdatewithin){
       updateUpdateData();
@@ -69,7 +72,7 @@ function deleteBlogs(){
 
 function getAPIBlogCount(tx,results){
   if(constate){
-    var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total';
+    var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total&callback=?';
     $.getJSON(uri, function(data) {
 	  importBlogData(data['count_total']);
     });
@@ -79,7 +82,7 @@ function getAPIBlogCount(tx,results){
 }
 
 function importBlogData(count){
-  var uri = 'http://www.guyfieri.com/?json=1&post_type=news&custom_fields=news-video&count='+count;
+  var uri = 'http://www.guyfieri.com/?json=1&post_type=news&custom_fields=news-video&count='+count+'&callback=?';
   $.getJSON(uri, function(data) {
     $.each(data['posts'], function(index, item){
       blogsToLoad[index] = item;
@@ -92,7 +95,10 @@ function importBlogData(count){
 
 function writeBlogData(tx){
 	for(var i=0;i<blogsToLoad.length;i++){
-      tx.executeSql("REPLACE INTO blogs (id, title, excerpt, content, date, url, image) VALUES (?,?,?,?,?,?,?)",[blogsToLoad[i]['id'],blogsToLoad[i]['title'],blogsToLoad[i]['excerpt'],blogsToLoad[i]['content'],blogsToLoad[i]['date'],blogsToLoad[i]['url'],blogsToLoad[i]['attachments'][0]['images']['large']['url']]);
+
+    var imageAttachment = blogsToLoad[i]['thumbnail_images']['full']['url'];
+
+      tx.executeSql("REPLACE INTO blogs (id, title, excerpt, content, date, url, image) VALUES (?,?,?,?,?,?,?)",[blogsToLoad[i]['id'],blogsToLoad[i]['title'],blogsToLoad[i]['excerpt'],blogsToLoad[i]['content'],blogsToLoad[i]['date'],blogsToLoad[i]['url'],imageAttachment]);
 	}
 }
 function blogsuccessCB() {
@@ -149,10 +155,12 @@ function errorNewestBlogDataCB(tx, err) {
 }
 
 function loadBlogData(tx, results){
+  console.log('loadBlogData Started');
   var listoutput = '';
   var postoutput = '';
   var len = results.rows.length;
   var oe = '';
+
   for (var i=0; i<len; i++){
       if(results.rows.item(i).title.length > 25){
         var title = results.rows.item(i).title.substr(0,25)+'...';
@@ -182,6 +190,7 @@ function loadBlogData(tx, results){
       if(results.rows.item(i).image != '')postoutput += '<div class="imgarea"><div class="top"></div><div class="middle"><img src="'+results.rows.item(i).image+'" width="270" /></div><div class="bottom"></div></div>';
       postoutput += '<div class="date">'+date+'</div><div class="title">'+results.rows.item(i).title+'</div><div class="content">'+results.rows.item(i).content+'</div><div class="share_this"><div class="share_this_txt">Share</div><div class="share_this_icons"><a class="social_icon facebook" href="http://www.facebook.com/sharer.php?u='+encodedURL+'&t='+encodedTitle+'"></a><a class="social_icon twitter" href="https://twitter.com/intent/tweet?url='+encodedURL+'"></a><a class="social_icon linkedin" href="http://www.linkedin.com/shareArticle?mini=true&url='+encodedURL+'&title='+encodedTitle+'&source='+encodedSource+'&summary='+encodedContent+'"></a><a class="social_icon mail" href="mailto:?subject='+encodedTitle+'&body='+encodedURL+'"></a><div class="clear"></div></div><div class="clear"></div></div><div class="space130"></div></li></ul></li>';
   }
+  
   $("#blogviewport #list").empty();
   $("#blogviewport #list").append(listoutput);
   if(mainblogScroll != null){
@@ -199,23 +208,25 @@ function loadBlogData(tx, results){
   $(".social_icon").bind('touchend', function(){
     $(this).css('background-position','0 0');
   });
-  $(".social_icon").bind('click', function(e){
-	e.preventDefault();
-    if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,"Guy's Updates","Share on "+translateSocialSites($(this).attr('class').replace(/social_icon\s+/,'')),$(this).parent('.share_this_icons').parent('.share_this').siblings('.title').html(),1); }
-    /* Way of implementing social icons to stay in the app when they share, the childBrowser function call doesn't work
-	e.preventDefault();
-	window.plugins.childBrowser.showWebPage($(this).attr('href'),{showLocationBar:true,showAddress:true,showNavigationBar:true});
-    */
-	window.location.href = $(this).attr('href');
-  });
-  
-  blogUpdating = false;
-  if(!blogUpdating && !locUpdating && !recUpdating){
-    $('#updating_screen').css({'display':'none'});
-	if(!constate){
-  	  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-	}
-  }
+
+    $(".social_icon").bind('click', function(e){
+  	e.preventDefault();
+      if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,"Guy's Updates","Share on "+translateSocialSites($(this).attr('class').replace(/social_icon\s+/,'')),$(this).parent('.share_this_icons').parent('.share_this').siblings('.title').html(),1); }
+      /* Way of implementing social icons to stay in the app when they share, the childBrowser function call doesn't work
+  	e.preventDefault();
+  	window.plugins.childBrowser.showWebPage($(this).attr('href'),{showLocationBar:true,showAddress:true,showNavigationBar:true});
+      */
+  	window.location.href = $(this).attr('href');
+    });
+
+  // blogUpdating = false;
+  // if(!blogUpdating && !locUpdating && !recUpdating){
+  //     $('#updating_screen').css({'display':'none'});
+  // 	if(!constate){
+  //   	  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+  // 	}
+  // }
+  console.log('loadBlogData Ended');
   loadNewestBlog();
 }
 
