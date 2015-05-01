@@ -60,6 +60,7 @@
         <gap:splash src="img/splashes/startup-retina-big.png" gap:platform="android" gap:density="mdpi" />
         <gap:splash src="img/splashes/startup-retina-big.png" gap:platform="android" gap:density="hdpi" />
      
+        <content src="index.html" />
         <access origin="http://www.guyfieri.com/" />
         <access origin="http://guyfieri.com" />
         <access origin="http://maps.google.com" />
