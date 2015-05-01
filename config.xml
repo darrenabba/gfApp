@@ -41,7 +41,7 @@
         <preference name="PaginationMode" value="unpaginated" />
         <preference name="StatusBarOverlaysWebView" value="false" />
         <preference name="StatusBarStyle" value="blackopaque" />
-        <preference name="DisallowOverscroll" value="true" />
+        <preference name="DisallowOverscroll" value="false" />
         
         <icon src="img/l/apple-touch-icon-precomposed.png" width="57" height="57"/>
         <icon src="img/m/apple-touch-icon.png" width="72" height="72"/>
