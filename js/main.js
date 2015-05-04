@@ -60,9 +60,7 @@
     gaPlugin = window.plugins.gaPlugin;
     gaPlugin.init(GASuccessHandler, GAErrorHandler, "UA-37376566-2", 10);
     console.log('GA Ready');
-    platform = device.model;
-    console.log("Platform: " + platform);
-    setRecipeBtnHack(platform);
+    setRecipeBtnHack();
     loaddb();
     checkConnection(true);
   }
@@ -568,29 +566,30 @@
     }
   }
   
-  function setRecipeBtnHack(platform){
-    if(platform == 'Android'){
-      $('#recfilterbtn').live('click',function(){
-        rcpfilters = [];
-        $('.reciconon').each(function(){
-          var key = '';
-          if($(this).hasClass('ing')){
-            key = 'ing';
-          }
-          else if($(this).hasClass('dsh')){
-            key = 'dsh';
-          }
-          else if($(this).hasClass('occ')){
-            key = 'occ';
-          }
-          var val = $(this).attr('rel');
-          rcpfilters[key] = val;
-        });
-        filterRecipeData(rcpfilters);
-        return false;
-      });
-    }
-    else{
+  //function setRecipeBtnHack(platform){
+    // if(platform == 'Android'){
+    //   $('#recfilterbtn').live('click',function(){
+    //     rcpfilters = [];
+    //     $('.reciconon').each(function(){
+    //       var key = '';
+    //       if($(this).hasClass('ing')){
+    //         key = 'ing';
+    //       }
+    //       else if($(this).hasClass('dsh')){
+    //         key = 'dsh';
+    //       }
+    //       else if($(this).hasClass('occ')){
+    //         key = 'occ';
+    //       }
+    //       var val = $(this).attr('rel');
+    //       rcpfilters[key] = val;
+    //     });
+    //     filterRecipeData(rcpfilters);
+    //     return false;
+    //   });
+    // }
+    // else{
+    function setRecipeBtnHack(){  
       $('#recfilterbtn').live('touchend',function(){
         rcpfilters = [];
         $('.reciconon').each(function(){
@@ -610,7 +609,7 @@
         filterRecipeData(rcpfilters);
         return false;
       });
-    }
+    //}
   }
   
   /* End Recipes Page */

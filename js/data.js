@@ -499,8 +499,8 @@ function getAppLocationCount(){
 function localImportLocationData(tx,results){
   currentLocationCount = results.rows.length;
   if(currentLocationCount == 0){
-	  var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
-    //var uri = 'data/locations.txt';
+	  //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
+    var uri = 'data/locations.txt';
 	  $.getJSON(uri, function(data) {
 		totalLocations = data['count_total'];
 		$.each(data['posts'], function(index, item){
@@ -574,11 +574,13 @@ function searchLocationData(){
   if($('#locsearchtxt').val() != ''){
     $('#locationsloader').css({'display':'block'});
     if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,"Locations","Button Press","Search",1); }
-    db.transaction(function(tx){
+      console.log('searchLocationData function ran');
+      db.transaction(function(tx){
       tx.executeSql('SELECT * FROM locations ORDER BY title ASC', [], getLatLng, errorLocationDataCB);
     });
     $('#locsearchtxt').blur();
-  } else {
+  } 
+  else {
     navigator.notification.alert('You must fill out a search keyword.', alertCallback, 'Location Search Error', 'OK');
   }
 }
