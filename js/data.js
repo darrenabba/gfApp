@@ -75,7 +75,7 @@ function getAPIBlogCount(tx,results){
   if(constate){
     var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total&callback=?';
     $.getJSON(uri, function(data) {
-	  importBlogData(data['count_total']);
+	   importBlogData(data['count_total']);
     });
   } else {
     checkBlogData();
@@ -113,6 +113,7 @@ function blogerrorCB(err) {
 }
 
 function checkBlogData(){
+  console.log('checkBlogData Started');
   db.transaction(function(tx){
     tx.executeSql('SELECT * FROM blogs ORDER BY date DESC', [], loadBlogData, errorBlogDataCB);
   });
@@ -126,12 +127,15 @@ function errorBlogDataCB(tx, err) {
 }
 
 function loadNewestBlog(){
+  console.log('loadNewestBlog Started');
   db.transaction(function(tx){
     tx.executeSql('SELECT * FROM blogs ORDER BY date DESC LIMIT 1', [], loadNewestBlogData, errorNewestBlogDataCB);
   });
+  console.log('loadNewestBlog Ended');
 }
 
 function loadNewestBlogData(tx, results){
+  console.log('loadNewestBlogData started');
   if(results.rows.length == 1){
     var excerpt = results.rows.item(0).excerpt;
     if(excerpt.length > 125){
@@ -149,6 +153,7 @@ function loadNewestBlogData(tx, results){
     bs.children('.content').html(excerpt);
     bs.children('.readmore').children('#blomore').attr('data-id',id);
   }
+  console.log('loadNewestBlogData Ended');
 }
 
 function errorNewestBlogDataCB(tx, err) {
@@ -220,13 +225,13 @@ function loadBlogData(tx, results){
   	window.location.href = $(this).attr('href');
     });
 
-  // blogUpdating = false;
-  // if(!blogUpdating && !locUpdating && !recUpdating){
-  //     $('#updating_screen').css({'display':'none'});
-  // 	if(!constate){
-  //   	  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-  // 	}
-  // }
+   blogUpdating = false;
+   if(!blogUpdating && !locUpdating && !recUpdating){
+       $('#updating_screen').css({'display':'none'});
+   	if(!constate){
+     	  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+   	}
+   }
   console.log('loadBlogData Ended');
   loadNewestBlog();
 }
@@ -321,8 +326,9 @@ function getAppRecipeCount(){
 
 function localImportRecipeData(tx,results){
   currentRecipeCount = results.rows.length;
+  //alert(currentRecipeCount);
   if(currentRecipeCount == 0){
-	  var uri = 'data/recipe.data';
+	  var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=recipes&callback=?';
 	  $.getJSON(uri, function(data) {
 		totalRecipes = data['count_total'];
 		$.each(data['posts'], function(index, item){
@@ -492,15 +498,18 @@ function getAppLocationCount(){
 
 function localImportLocationData(tx,results){
   currentLocationCount = results.rows.length;
+  alert(currentLocationCount);
   if(currentLocationCount == 0){
-	  var uri = 'data/locations.data';
+	  var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
+    //var uri = 'data/locations.txt';
 	  $.getJSON(uri, function(data) {
 		totalLocations = data['count_total'];
+    alert(totalLocations);
 		$.each(data['posts'], function(index, item){
 		  locationsToLoad[index] = item;
-		  if(index == totalLocations-1){
-			db.transaction(writeLocationData,locationserrorCB,locationssuccessCB);
-		  }
+		  //if(index == totalLocations-1){
+			 db.transaction(writeLocationData,locationserrorCB,locationssuccessCB);
+		  //}
 		});
 	  });
   } else {

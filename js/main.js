@@ -56,14 +56,15 @@
   var recUpdating = true;
 
   function onDeviceReady(){
-    console.log('onDeviceReady Started');
+    console.log('onDeviceReady Fired');
     gaPlugin = window.plugins.gaPlugin;
     gaPlugin.init(GASuccessHandler, GAErrorHandler, "UA-37376566-2", 10);
+    console.log('GA Ready');
     platform = device.platform;
+    console.log("Platform: " + platform);
     setRecipeBtnHack(platform);
     loaddb();
     checkConnection(true);
-    console.log('onDeviceReady Ended');
   }
   
   function GASuccessHandler(){
