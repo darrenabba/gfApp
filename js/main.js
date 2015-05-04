@@ -60,7 +60,7 @@
     gaPlugin = window.plugins.gaPlugin;
     gaPlugin.init(GASuccessHandler, GAErrorHandler, "UA-37376566-2", 10);
     console.log('GA Ready');
-    platform = device.platform;
+    platform = device.model;
     console.log("Platform: " + platform);
     setRecipeBtnHack(platform);
     loaddb();

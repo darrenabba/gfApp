@@ -498,13 +498,11 @@ function getAppLocationCount(){
 
 function localImportLocationData(tx,results){
   currentLocationCount = results.rows.length;
-  alert(currentLocationCount);
   if(currentLocationCount == 0){
 	  var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
     //var uri = 'data/locations.txt';
 	  $.getJSON(uri, function(data) {
 		totalLocations = data['count_total'];
-    alert(totalLocations);
 		$.each(data['posts'], function(index, item){
 		  locationsToLoad[index] = item;
 		  //if(index == totalLocations-1){
