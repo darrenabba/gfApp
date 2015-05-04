@@ -7,10 +7,11 @@ function loaddb(){
 }
 
 function checkUpdateData(){
+  console.log('checkUpdateData Started');
   db.transaction(function(tx){
     tx.executeSql('SELECT lastupdate, datetime(\'now\') AS now, strftime(\'%s\',\'now\') - strftime(\'%s\',lastupdate) AS difference FROM updates LIMIT 1', [], loadUpdateData, errorUpdateData);
   });
-  console.log('checkUpdateData Ran');
+  console.log('checkUpdateData Ended');
 }
 
 function loadUpdateData(tx, results){
