@@ -536,7 +536,7 @@ function writeLocationData(tx){
     }
     //tx.executeSql("REPLACE INTO locations (id, title, content, date, url, addr1, addr2, city, state, zip, phone, video, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[locationsToLoad[i]['id'],locationsToLoad[i]['title'],locationsToLoad[i]['content'],locationsToLoad[i]['date'],locationsToLoad[i]['url'],locationsToLoad[i]['custom_fields']['_wppl_street'],locationsToLoad[i]['custom_fields']['_wppl_apt'],locationsToLoad[i]['custom_fields']['_wppl_city'],locationsToLoad[i]['custom_fields']['_wppl_state'],locationsToLoad[i]['custom_fields']['_wppl_zipcode'],locationsToLoad[i]['custom_fields']['_wppl_phone'],locationsToLoad[i]['custom_fields']['hotspot-video'],locationsToLoad[i]['custom_fields']['_wppl_lat'],locationsToLoad[i]['custom_fields']['_wppl_long']]);
 
-    tx.executeSql("REPLACE INTO locations (id, title, content, date, url, addr1, addr2, city, state, zip, phone, video, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[locationsToLoad[i]['id'],locationsToLoad[i]['title'],locationsToLoad[i]['content'],locationsToLoad[i]['date'],locationsToLoad[i]['url'],locationsToLoad[i]['custom_fields']['tv_restaurant_address'],locationsToLoad[i]['custom_fields']['_wppl_apt'],locationsToLoad[i]['custom_fields']['tv_restaurant_city'],locationsToLoad[i]['custom_fields']['tv_restaurant_state'],locationsToLoad[i]['custom_fields']['tv_restaurant_zip'],locationsToLoad[i]['custom_fields']['_wppl_phone'],locationsToLoad[i]['custom_fields']['hotspot-video'],'38.480429','-122.71805479999999']);
+    tx.executeSql("REPLACE INTO locations (id, title, content, date, url, addr1, addr2, city, state, zip, phone, video, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[locationsToLoad[i]['id'],locationsToLoad[i]['title'],locationsToLoad[i]['content'],locationsToLoad[i]['date'],locationsToLoad[i]['url'],locationsToLoad[i]['custom_fields']['tv_restaurant_address'],locationsToLoad[i]['custom_fields']['_wppl_apt'],locationsToLoad[i]['custom_fields']['tv_restaurant_city'],locationsToLoad[i]['custom_fields']['tv_restaurant_state'],locationsToLoad[i]['custom_fields']['tv_restaurant_zip'],locationsToLoad[i]['custom_fields']['tv_restaurant_phone'],locationsToLoad[i]['custom_fields']['hotspot-video'],'38.480429','-122.71805479999999']);
   }
 }
 
@@ -563,7 +563,6 @@ function locationserrorCB() {
 }
 
 function checkSingleLocationData(lid){
-  console.log('jcjcjc checkSingleLocationData')
   db.transaction(function(tx){
 	tx.executeSql('SELECT * FROM locations WHERE id = '+lid, [], loadSingleLocationData, errorLocationDataCB);
   });
@@ -601,12 +600,11 @@ function errorLocationDataCB(err) {
 }
 
 function loadSingleLocationData(tx, results){
-  console.log('peepeepee');
   var len = results.rows.length;
   if(len == 1){
     var title = results.rows.item(0).title;
     var phone = results.rows.item(0).phone;
-    phone = phone.replace('-','');
+    //phone = phone.replace('-','');
 	var daddr = ((results.rows.item(0).addr1!='')?results.rows.item(0).addr1:'')+((results.rows.item(0).addr2!='')?'+'+results.rows.item(0).addr2:'')+((results.rows.item(0).city!='')?'+'+results.rows.item(0).city:'')+((results.rows.item(0).state!='')?'+'+results.rows.item(0).state:'')+((results.rows.item(0).zip!='')?'+'+results.rows.item(0).zip:'');
 	daddr = daddr.replace(' ','+');
     //var img = (results.rows.item(0).image != '')?'<div class="top"></div><div class="middle"><img src="'+results.rows.item(0).image+'" width="270" /></div><div class="bottom"></div>':'';
