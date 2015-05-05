@@ -1,6 +1,6 @@
 /*load database // check for tables*/
 function loaddb(){
-  if(db = window.openDatabase("guydb", "1.0", "GuyFieriAppData", 5000000)){
+  if(db = window.openDatabase("guydb", "1.0", "GuyFieriAppData", 500000)){
     dbexists = true;
   }
   console.log('loaddb ran');
@@ -500,7 +500,9 @@ function localImportLocationData(tx,results){
   currentLocationCount = results.rows.length;
   if(currentLocationCount == 0){
 	  //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
-    var uri = 'data/locations.txt';
+    //var uri = 'data/locations.txt';
+    var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=restaurants&callback=?';
+    //alert(uri);
 	  $.getJSON(uri, function(data) {
 		totalLocations = data['count_total'];
 		$.each(data['posts'], function(index, item){
@@ -532,7 +534,9 @@ function writeLocationData(tx){
     if(locationsToLoad[i]['custom_fields']['_wppl_long'] == 'undefined' || !locationsToLoad[i]['custom_fields']['_wppl_long']){
       locationsToLoad[i]['custom_fields']['_wppl_long'] = '0';
     }
-    tx.executeSql("REPLACE INTO locations (id, title, content, date, url, addr1, addr2, city, state, zip, phone, video, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[locationsToLoad[i]['id'],locationsToLoad[i]['title'],locationsToLoad[i]['content'],locationsToLoad[i]['date'],locationsToLoad[i]['url'],locationsToLoad[i]['custom_fields']['_wppl_street'],locationsToLoad[i]['custom_fields']['_wppl_apt'],locationsToLoad[i]['custom_fields']['_wppl_city'],locationsToLoad[i]['custom_fields']['_wppl_state'],locationsToLoad[i]['custom_fields']['_wppl_zipcode'],locationsToLoad[i]['custom_fields']['_wppl_phone'],locationsToLoad[i]['custom_fields']['hotspot-video'],locationsToLoad[i]['custom_fields']['_wppl_lat'],locationsToLoad[i]['custom_fields']['_wppl_long']]);
+    //tx.executeSql("REPLACE INTO locations (id, title, content, date, url, addr1, addr2, city, state, zip, phone, video, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[locationsToLoad[i]['id'],locationsToLoad[i]['title'],locationsToLoad[i]['content'],locationsToLoad[i]['date'],locationsToLoad[i]['url'],locationsToLoad[i]['custom_fields']['_wppl_street'],locationsToLoad[i]['custom_fields']['_wppl_apt'],locationsToLoad[i]['custom_fields']['_wppl_city'],locationsToLoad[i]['custom_fields']['_wppl_state'],locationsToLoad[i]['custom_fields']['_wppl_zipcode'],locationsToLoad[i]['custom_fields']['_wppl_phone'],locationsToLoad[i]['custom_fields']['hotspot-video'],locationsToLoad[i]['custom_fields']['_wppl_lat'],locationsToLoad[i]['custom_fields']['_wppl_long']]);
+
+    tx.executeSql("REPLACE INTO locations (id, title, content, date, url, addr1, addr2, city, state, zip, phone, video, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[locationsToLoad[i]['id'],locationsToLoad[i]['title'],locationsToLoad[i]['content'],locationsToLoad[i]['date'],locationsToLoad[i]['url'],locationsToLoad[i]['custom_fields']['tv_restaurant_address'],locationsToLoad[i]['custom_fields']['_wppl_apt'],locationsToLoad[i]['custom_fields']['tv_restaurant_city'],locationsToLoad[i]['custom_fields']['tv_restaurant_state'],locationsToLoad[i]['custom_fields']['tv_restaurant_zip'],locationsToLoad[i]['custom_fields']['_wppl_phone'],locationsToLoad[i]['custom_fields']['hotspot-video'],'38.480429','-122.71805479999999']);
   }
 }
 
@@ -576,8 +580,8 @@ function searchLocationData(){
     if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,"Locations","Button Press","Search",1); }
       console.log('searchLocationData function ran');
       db.transaction(function(tx){
-      tx.executeSql('SELECT * FROM locations ORDER BY title ASC', [], getLatLng, errorLocationDataCB);
-    });
+        tx.executeSql('SELECT * FROM locations ORDER BY title ASC', [], getLatLng, errorLocationDataCB);
+      });
     $('#locsearchtxt').blur();
   } 
   else {
@@ -736,135 +740,182 @@ function loadLocationData(tx, results){
 }
 
 function loadLocationSearchData(searchLatLng, tx, results){
+  console.log('11111');
   locationsSearchDone = true;
   clearMarkers();
-	google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-	  $('#locationsloader').css({'display':'none'});
-	  var searchLat = searchLatLng.lat();
-	  var searchLng = searchLatLng.lng();
-	  var dist;
-	  var searchLocationIcon = new google.maps.MarkerImage("img/locations/markers/red.png", null, null, null, new google.maps.Size(31,52));
-	  var myIcon = new google.maps.MarkerImage("img/locations/markers/blue.png", null, null, null, new google.maps.Size(31,52));
-	  var infoboxoptions = {
-							boxStyle:{
-									  background:"#000 url('img/locations/infobox_bg.jpg') repeat-x",
-									  border:"1px solid #FFF",
-									  color:"#FFF",
-									  font:"14px Museo700",
-									  position:"relative"
-							},
-							closeBoxURL: "",
-							pane: "floatPane",
-							pixelOffset:new google.maps.Size(0,-95)
-	  };
-	  var infobox = new InfoBox(infoboxoptions);
-	  var latlng = '';
-	  var listoutput = new Array();
-	  var postoutput = '';
-	  var len = results.rows.length;
-	  var infobox_click = 0;
-	  for (var i=0; i<len; i++){
-		dist = new Number(distance(searchLat, searchLng, results.rows.item(i).lat, results.rows.item(i).lng));
-		if(dist < 100){
-		  var distInt = Math.round(dist*1000);
-		  latlng = new google.maps.LatLng(results.rows.item(i).lat,results.rows.item(i).lng);
-		  var marker = new google.maps.Marker({
-			position: latlng,
-			map: map,
-			title:results.rows.item(i).title,
-			zIndex: results.rows.item(i).id,
-			optimized: 0,
-			icon: myIcon
-		  });
-		  google.maps.event.addListener(marker, 'click', function(){
-                        if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Map View > Marker Click',this.title,1); }
-			var content = '<div class="info_box_title" rel="'+this.zIndex+'"><div><span class="title">'+this.title+'</span><img class="arrow_right" src="img/locations/arrow_right.png" width="19px" height="18px" /></div></div>';
-			/* If you would like to set it center, here is the code the mostly does it... it does it on a second click, i assume because the info_box_title element already lives in the map... Adding to #locationshdr currently because I didn't know where was best
-			$("#locationshdr").append(content);
-			var width = $('.info_box_title').outerWidth();
-			width = width/2 * -1;
-			infoboxoptions.pixelOffset = new google.maps.Size(width,-95);
-			infobox.setOptions(infoboxoptions);
-			$(".info_box_title").remove();
-			*/
-			infobox.setContent(content);
-			infobox.open(map, this);
-			
-			/* Click event works now, but somehow checkSingleLocationData is not being called or may be that function has some issues - Added by Arun on Aug 29th.
-			*/
-			if(infobox_click == 0){
-				google.maps.event.addListener(infobox, 'domready', function(){
-				  $('.info_box_title').bind('click', function(){
-                	if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Map View > Restaurant Details',$(this).children('div').children('.title').html(),1); }
-					checkSingleLocationData($(this).attr('rel'));
-				  });
-				});
-				infobox_click = 1;
-			}
-			
-			infobox.show();
-		  });
-		  markers.push(marker);
-		  if(typeof listoutput[distInt] == 'undefined'){
-			  listoutput[distInt] = '';
-		  }
-		  listoutput[distInt] += '<li class="item" rel="'+results.rows.item(i).id+'"><div class="title">';
-		
-		if(results.rows.item(i).title.length > 25)
-			listoutput[distInt] += results.rows.item(i).title.substring(0,25)+'...';
-		else
-			listoutput[distInt] += results.rows.item(i).title;
-			
-		listoutput[distInt] += '</div><div class="address">';
-		
-		  if(results.rows.item(i).addr1){
-			if(results.rows.item(i).addr1.length > 25)
-				listoutput[distInt] += results.rows.item(i).addr1.substring(0,25)+'...';
-			else
-				listoutput[distInt] += results.rows.item(i).addr1;
-		  }
-		  if(results.rows.item(i).city && results.rows.item(i).state){
-			listoutput[distInt] += '<br />'+results.rows.item(i).city+', '+results.rows.item(i).state;
-		  } else if(results.rows.item(i).city) {
-			listoutput[distInt] += '<br />'+results.rows.item(i).city;
-		  } else if(results.rows.item(i).state) {
-			listoutput[distInt] += '<br />'+results.rows.item(i).state;
-		  }
-		  listoutput[distInt] += '</div></li>';
-		}
-	  }
-	  var marker = new google.maps.Marker({
-		position: searchLatLng,
-		map: map,
-		title:$('#locsearchtxt').val(),
-		optimized: 0,
-		icon: searchLocationIcon
-	  });
-	  google.maps.event.addListener(marker, 'click', function(){
-		var content = '<div class="info_box_title_no_arrow"><div>'+this.title+'</div></div>';
-		/* If you would like to set it center, here is the code the mostly does it... it does it on a second click, i assume because the info_box_title element already lives in the map... Adding to #locationshdr currently because I didn't know where was best
-		$("#locationshdr").append(content);
-		var width = $('.info_box_title').outerWidth();
-		width = width/2 * -1;
-		infoboxoptions.pixelOffset = new google.maps.Size(width,-95);
-		infobox.setOptions(infoboxoptions);
-		$(".info_box_title").remove();
-		*/
-		infobox.setContent(content);
-		infobox.open(map, this);
-		infobox.show();
-	  });
-	  $("#listloc #loclist").empty();
-	  $("#listloc #loclist").append(listoutput.join(''));
-	  addLocationScroll('listloc');
-          $("#listloc .item").bind('click', function(){
-            if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','List View > Restaurant Details',$(this).children('div').children('.title').html(),1); }
-            checkSingleLocationData($(this).attr('rel')); 
-            return false;
-	  });
-	});
+  
+  google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+    console.log('22222');
+    $('#locationsloader').css({'display':'none'});
+    var searchLat = searchLatLng.lat();
+    console.log(searchLat);
+    var searchLng = searchLatLng.lng();
+    console.log(searchLng);
+    var dist;
+    var searchLocationIcon = new google.maps.MarkerImage("img/locations/markers/red.png", null, null, null, new google.maps.Size(31,52));
+
+    console.log('33333');
+    console.log(searchLocationIcon);
+
+    var myIcon = new google.maps.MarkerImage("img/locations/markers/blue.png", null, null, null, new google.maps.Size(31,52));
+    var infoboxoptions = {
+              boxStyle:{
+                    background:"#000 url('img/locations/infobox_bg.jpg') repeat-x",
+                    border:"1px solid #FFF",
+                    color:"#FFF",
+                    font:"14px Museo700",
+                    position:"relative"
+              },
+              closeBoxURL: "",
+              pane: "floatPane",
+              pixelOffset:new google.maps.Size(0,-95)
+    };
+
+    console.log('44444');
+    console.log(myIcon);
+
+    var infobox = new InfoBox(infoboxoptions);
+    var latlng = '';
+    var listoutput = new Array();
+    var postoutput = '';
+    var len = results.rows.length;
+
+    console.log('55555');
+    console.log(len);
+
+    var infobox_click = 0;
+    for (var i=0; i<len; i++){
+        dist = new Number(distance(searchLat, searchLng, results.rows.item(i).lat, results.rows.item(i).lng));
+        
+        console.log('66666');
+        console.log(dist);
+
+        //if(dist < 100){
+            var distInt = Math.round(dist*1000);
+            latlng = new google.maps.LatLng(results.rows.item(i).lat,results.rows.item(i).lng);
+            
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title:results.rows.item(i).title,
+                zIndex: results.rows.item(i).id,
+                optimized: 0,
+                icon: myIcon
+            });
+
+            console.log('7777777');
+
+            google.maps.event.addListener(marker, 'click', function(){
+                if(gaPluginInitialized){ 
+                  gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Map View > Marker Click',this.title,1); 
+                  console.log('88888');
+                  console.log(this.title);
+                }
+
+                var content = '<div class="info_box_title" rel="'+this.zIndex+'"><div><span class="title">'+this.title+'</span><img class="arrow_right" src="img/locations/arrow_right.png" width="19px" height="18px" /></div></div>';
+
+                infobox.setContent(content);
+                infobox.open(map, this);
+                
+                if(infobox_click == 0){ 
+                  console.log('99999');
+
+                  google.maps.event.addListener(infobox, 'domready', function(){
+                      $('.info_box_title').bind('click', function(){
+                          if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Map View > Restaurant Details',$(this).children('div').children('.title').html(),1); }
+                           checkSingleLocationData($(this).attr('rel'));
+                      });
+                  });
+                  infobox_click = 1;
+                }
+                infobox.show();
+            });
+
+            markers.push(marker);
+
+            if(typeof listoutput[distInt] == 'undefined'){
+               listoutput[distInt] = '';
+               console.log('aaaaa');
+            }
+
+            listoutput[distInt] += '<li class="item" rel="'+results.rows.item(i).id+'"><div class="title">';
+        
+            if(results.rows.item(i).title.length > 25){
+               listoutput[distInt] += results.rows.item(i).title.substring(0,25)+'...';
+               console.log('bbbbb');
+            }
+            else {
+                listoutput[distInt] += results.rows.item(i).title;
+                console.log('ccccc');
+            }
+
+            listoutput[distInt] += '</div><div class="address">';
+        
+            if(results.rows.item(i).addr1){
+                console.log('ddddd');
+
+              if(results.rows.item(i).addr1.length > 25){
+                listoutput[distInt] += results.rows.item(i).addr1.substring(0,25)+'...';
+                console.log('eeeee');
+              }  
+              else {
+                listoutput[distInt] += results.rows.item(i).addr1;
+                console.log('ggggg');
+              }
+            }
+
+            if(results.rows.item(i).city && results.rows.item(i).state){
+               listoutput[distInt] += '<br />'+results.rows.item(i).city+', '+results.rows.item(i).state;
+               console.log('hhhhh');
+            } 
+            else if(results.rows.item(i).city) {
+               listoutput[distInt] += '<br />'+results.rows.item(i).city;
+               console.log('iiiii');
+            } 
+            else if(results.rows.item(i).state) {
+               listoutput[distInt] += '<br />'+results.rows.item(i).state;
+               console.log('jjjjj');
+            }
+          listoutput[distInt] += '</div></li>';
+        //}
+    }
+
+    var marker = new google.maps.Marker({
+        position: searchLatLng,
+        map: map,
+        title:$('#locsearchtxt').val(),
+        optimized: 0,
+        icon: searchLocationIcon
+    });
+    console.log('kkkkk');
+
+    google.maps.event.addListener(marker, 'click', function(){
+        var content = '<div class="info_box_title_no_arrow"><div>'+this.title+'</div></div>';
+        infobox.setContent(content);
+        infobox.open(map, this);
+        infobox.show();
+        console.log('lllll');
+    });
+
+    $("#listloc #loclist").empty();
+    $("#listloc #loclist").append(listoutput.join(''));
+    
+    addLocationScroll('listloc');
+    
+    $("#listloc .item").bind('click', function(){
+        if(gaPluginInitialized){ 
+            gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','List View > Restaurant Details',$(this).children('div').children('.title').html(),1); 
+        }
+        checkSingleLocationData($(this).attr('rel')); 
+        return false;
+        console.log('mmmmm');
+    });
+  
+  });
+  
   map.setZoom(8);
   map.setCenter(searchLatLng);
+  console.log('nnnnn');
 }
 
 function clearMarkers(){
