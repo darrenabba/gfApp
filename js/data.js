@@ -563,6 +563,7 @@ function locationserrorCB() {
 }
 
 function checkSingleLocationData(lid){
+  console.log('jcjcjc checkSingleLocationData')
   db.transaction(function(tx){
 	tx.executeSql('SELECT * FROM locations WHERE id = '+lid, [], loadSingleLocationData, errorLocationDataCB);
   });
@@ -600,6 +601,7 @@ function errorLocationDataCB(err) {
 }
 
 function loadSingleLocationData(tx, results){
+  console.log('peepeepee');
   var len = results.rows.length;
   if(len == 1){
     var title = results.rows.item(0).title;
@@ -637,136 +639,106 @@ function loadSingleLocationData(tx, results){
   	alert('No results');
 }
 
-function loadLocationSearchData(searchLatLng, tx, results){
-  locationsSearchDone = true;
+function loadLocationData(tx, results){
   clearMarkers();
-  google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-    $('#locationsloader').css({'display':'none'});
-    var searchLat = searchLatLng.lat();
-    var searchLng = searchLatLng.lng();
-    var dist;
-    var searchLocationIcon = new google.maps.MarkerImage("img/locations/markers/red.png", null, null, null, new google.maps.Size(31,52));
-    var myIcon = new google.maps.MarkerImage("img/locations/markers/blue.png", null, null, null, new google.maps.Size(31,52));
-    var infoboxoptions = {
-              boxStyle:{
-                    background:"#000 url('img/locations/infobox_bg.jpg') repeat-x",
-                    border:"1px solid #FFF",
-                    color:"#FFF",
-                    font:"14px Museo700",
-                    position:"relative"
-              },
-              closeBoxURL: "",
-              pane: "floatPane",
-              pixelOffset:new google.maps.Size(0,-95)
-    };
-    var infobox = new InfoBox(infoboxoptions);
-    var latlng = '';
-    var listoutput = new Array();
-    var postoutput = '';
-    var len = results.rows.length;
-    var infobox_click = 0;
-    for (var i=0; i<len; i++){
-    dist = new Number(distance(searchLat, searchLng, results.rows.item(i).lat, results.rows.item(i).lng));
+  var dist;
+  var myIcon = new google.maps.MarkerImage("img/locations/markers/blue.png", null, null, null, new google.maps.Size(31,52));
+  var infoboxoptions = {
+                        boxStyle:{
+                                  background:"#000 url('img/locations/infobox_bg.jpg') repeat-x",
+                                  border:"1px solid #FFF",
+                                  color:"#FFF",
+                                  font:"14px Museo700",
+                                  position:"relative"
+                        },
+						closeBoxURL: "",
+                        pane: "floatPane",
+                        pixelOffset:new google.maps.Size(0,-95)
+  };
+  var infobox = new InfoBox(infoboxoptions);
+  var latlng = '';
+  var listoutput = new Array();
+  var postoutput = '';
+  var len = results.rows.length;
+  var infobox_click = 0;
+  for (var i=0; i<len; i++){
+    dist = new Number(distance(storage.getItem('lat'), storage.getItem('lng'), results.rows.item(i).lat, results.rows.item(i).lng));
     if(dist < 100){
-      var distInt = Math.round(dist*1000);
+	  var distInt = Math.round(dist*1000);
       latlng = new google.maps.LatLng(results.rows.item(i).lat,results.rows.item(i).lng);
       var marker = new google.maps.Marker({
-      position: latlng,
-      map: map,
-      title:results.rows.item(i).title,
-      zIndex: results.rows.item(i).id,
-      optimized: 0,
-      icon: myIcon
+        position: latlng,
+        map: map,
+        title:results.rows.item(i).title,
+        zIndex: results.rows.item(i).id,
+        optimized: 0,
+        icon: myIcon
       });
       google.maps.event.addListener(marker, 'click', function(){
-                        if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Map View > Marker Click',this.title,1); }
-      var content = '<div class="info_box_title" rel="'+this.zIndex+'"><div><span class="title">'+this.title+'</span><img class="arrow_right" src="img/locations/arrow_right.png" width="19px" height="18px" /></div></div>';
-      /* If you would like to set it center, here is the code the mostly does it... it does it on a second click, i assume because the info_box_title element already lives in the map... Adding to #locationshdr currently because I didn't know where was best
-      $("#locationshdr").append(content);
-      var width = $('.info_box_title').outerWidth();
-      width = width/2 * -1;
-      infoboxoptions.pixelOffset = new google.maps.Size(width,-95);
-      infobox.setOptions(infoboxoptions);
-      $(".info_box_title").remove();
-      */
-      infobox.setContent(content);
-      infobox.open(map, this);
-      
-      /* Click event works now, but somehow checkSingleLocationData is not being called or may be that function has some issues - Added by Arun on Aug 29th.
-      */
-      if(infobox_click == 0){
-        google.maps.event.addListener(infobox, 'domready', function(){
-          $('.info_box_title').bind('click', function(){
-                  if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Map View > Restaurant Details',$(this).children('div').children('.title').html(),1); }
-          checkSingleLocationData($(this).attr('rel'));
-          });
-        });
-        infobox_click = 1;
-      }
-      
-      infobox.show();
+        if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Map View > Marker Click',this.title,1); }
+        var content = '<div class="info_box_title" rel="'+this.zIndex+'"><div><span class="title">'+this.title+'</span><img class="arrow_right" src="img/locations/arrow_right.png" width="19px" height="18px" /></div></div>';
+        /* If you would like to set it center, here is the code the mostly does it... it does it on a second click, i assume because the info_box_title element already lives in the map... Adding to #locationshdr currently because I didn't know where was best
+        $("#locationshdr").append(content);
+        var width = $('.info_box_title').outerWidth();
+        width = width/2 * -1;
+        infoboxoptions.pixelOffset = new google.maps.Size(width,-95);
+        infobox.setOptions(infoboxoptions);
+        $(".info_box_title").remove();
+        */
+        infobox.setContent(content);
+        infobox.open(map, this);
+		
+		/* Click event works now, but somehow checkSingleLocationData is not being called or may be that function has some issues - Added by Arun on Aug 29th.
+        */
+		if(infobox_click == 0){
+			google.maps.event.addListener(infobox, 'domready', function(){
+			  $('.info_box_title').on('click', function(){
+                if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Map View > Restaurant Details',$(this).children('div').children('.title').html(),1); }
+				checkSingleLocationData($(this).attr('rel'));
+			  });
+			});
+			infobox_click = 1;
+		}
+		
+        infobox.show();
       });
       markers.push(marker);
-      if(typeof listoutput[distInt] == 'undefined'){
-        listoutput[distInt] = '';
-      }
+	  if(typeof listoutput[distInt] == 'undefined'){
+		  listoutput[distInt] = '';
+	  }
       listoutput[distInt] += '<li class="item" rel="'+results.rows.item(i).id+'"><div class="title">';
-    
-    if(results.rows.item(i).title.length > 25)
-      listoutput[distInt] += results.rows.item(i).title.substring(0,25)+'...';
-    else
-      listoutput[distInt] += results.rows.item(i).title;
-      
-    listoutput[distInt] += '</div><div class="address">';
-    
+	
+	if(results.rows.item(i).title.length > 25)
+		listoutput[distInt] += results.rows.item(i).title.substring(0,25)+'...';
+	else
+		listoutput[distInt] += results.rows.item(i).title;
+		
+	listoutput[distInt] += '</div><div class="address">';
+	
       if(results.rows.item(i).addr1){
-      if(results.rows.item(i).addr1.length > 25)
-        listoutput[distInt] += results.rows.item(i).addr1.substring(0,25)+'...';
-      else
-        listoutput[distInt] += results.rows.item(i).addr1;
+        if(results.rows.item(i).addr1.length > 25)
+			listoutput[distInt] += results.rows.item(i).addr1.substring(0,25)+'...';
+		else
+			listoutput[distInt] += results.rows.item(i).addr1;
       }
       if(results.rows.item(i).city && results.rows.item(i).state){
-      listoutput[distInt] += '<br />'+results.rows.item(i).city+', '+results.rows.item(i).state;
+        listoutput[distInt] += '<br />'+results.rows.item(i).city+', '+results.rows.item(i).state;
       } else if(results.rows.item(i).city) {
-      listoutput[distInt] += '<br />'+results.rows.item(i).city;
+        listoutput[distInt] += '<br />'+results.rows.item(i).city;
       } else if(results.rows.item(i).state) {
-      listoutput[distInt] += '<br />'+results.rows.item(i).state;
+        listoutput[distInt] += '<br />'+results.rows.item(i).state;
       }
       listoutput[distInt] += '</div></li>';
     }
-    }
-    var marker = new google.maps.Marker({
-    position: searchLatLng,
-    map: map,
-    title:$('#locsearchtxt').val(),
-    optimized: 0,
-    icon: searchLocationIcon
-    });
-    google.maps.event.addListener(marker, 'click', function(){
-    var content = '<div class="info_box_title_no_arrow"><div>'+this.title+'</div></div>';
-    /* If you would like to set it center, here is the code the mostly does it... it does it on a second click, i assume because the info_box_title element already lives in the map... Adding to #locationshdr currently because I didn't know where was best
-    $("#locationshdr").append(content);
-    var width = $('.info_box_title').outerWidth();
-    width = width/2 * -1;
-    infoboxoptions.pixelOffset = new google.maps.Size(width,-95);
-    infobox.setOptions(infoboxoptions);
-    $(".info_box_title").remove();
-    */
-    infobox.setContent(content);
-    infobox.open(map, this);
-    infobox.show();
-    });
-    $("#listloc #loclist").empty();
-    $("#listloc #loclist").append(listoutput.join(''));
-    addLocationScroll('listloc');
-          $("#listloc .item").bind('click', function(){
-            if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','List View > Restaurant Details',$(this).children('div').children('.title').html(),1); }
-            checkSingleLocationData($(this).attr('rel')); 
-            return false;
-    });
+  }
+  $("#listloc #loclist").empty();
+  $("#listloc #loclist").append(listoutput.join(''));
+  addLocationScroll('listloc');
+  $("#listloc .item").bind('click', function(){
+    if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','List View > Restaurant Details',$(this).children('div').children('.title').html(),1); }
+    checkSingleLocationData($(this).attr('rel')); 
+    return false;
   });
-  map.setZoom(8);
-  map.setCenter(searchLatLng);
 }
 
 function loadLocationSearchData(searchLatLng, tx, results){
