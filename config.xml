@@ -18,7 +18,7 @@
         <gap:plugin name="org.apache.cordova.geolocation" />
         <gap:plugin name="org.apache.cordova.device-orientation" />
         <gap:plugin name="com.phonegap.plugin.statusbar" />
-        <!-- <gap:plugin name="org.apache.cordova.inappbrowser" />  -->
+        <gap:plugin name="org.apache.cordova.inappbrowser" /> 
         <gap:plugin name="com.adobe.plugins.gaplugin" />
         
         <!-- <gap:plugin name="org.apache.cordova.splashscreen" /> -->
