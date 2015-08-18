@@ -66,9 +66,9 @@ function updatecenter(lat,lng,state){
 
 function nolocation(){
   if(!constate){
-  	navigator.notification.alert('Turn off Airplane Mode or use Wi-Fi.', function(){}, 'Guy Fieri', 'OK');
+  	//navigator.notification.alert('Turn off Airplane Mode or use Wi-Fi.', function(){}, 'Guy Fieri', 'OK');
   } else {
-  	navigator.notification.alert('Your Current Location was not able to be located. Please check your internet connection and try again.', function(){}, 'Guy Fieri', 'OK');
+  	//navigator.notification.alert('Your Current Location was not able to be located. Please check your internet connection and try again.', function(){}, 'Guy Fieri', 'OK');
   }
 }
 

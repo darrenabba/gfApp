@@ -57,6 +57,8 @@ function successfulTimestampUpdate(tx, results){
   //navigator.notification.alert('Successfully updated the timestamp', alertCallback, 'Update Update Timestamp', 'OK');
   deleteBlogs();
   getAppRecipeCount();
+  console.log('getAppRecipeCount finished');
+  console.log('getAppLocationCount called');
   getAppLocationCount();
 }
 
@@ -229,7 +231,7 @@ function loadBlogData(tx, results){
    if(!blogUpdating && !locUpdating && !recUpdating){
        $('#updating_screen').css({'display':'none'});
    	if(!constate){
-     	  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+     	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
    	}
    }
   console.log('loadBlogData Ended');
@@ -326,7 +328,6 @@ function getAppRecipeCount(){
 
 function localImportRecipeData(tx,results){
   currentRecipeCount = results.rows.length;
-  //alert(currentRecipeCount);
   if(currentRecipeCount == 0){
 	  var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=recipes&callback=?';
 	  $.getJSON(uri, function(data) {
@@ -343,7 +344,7 @@ function localImportRecipeData(tx,results){
 	  if(!blogUpdating && !locUpdating && !recUpdating){
 		$('#updating_screen').css({'display':'none'});
 		if(!constate){
-		  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+		  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
 		}
 	  }
   }
@@ -361,7 +362,7 @@ function recipesuccessCB() {
   if(!blogUpdating && !locUpdating && !recUpdating){
     $('#updating_screen').css({'display':'none'});
 	if(!constate){
-  	  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+  	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
 	}
   }
 }
@@ -372,7 +373,7 @@ function recipeerrorCB() {
   if(!blogUpdating && !locUpdating && !recUpdating){
     $('#updating_screen').css({'display':'none'});
 	if(!constate){
-  	  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+  	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
 	}
   }
 }
@@ -492,32 +493,36 @@ function loadRecipeSearchData(tx, results){
 //--------------START LOCATION DATA FUNCTIONS----------------//
 function getAppLocationCount(){
   db.transaction(function(tx){
+    //tx.executeSql('CREATE TABLE IF NOT EXISTS locations (id unique, title, content, url, addr1, city, state, zip, phone, lat, lng)');
     tx.executeSql('SELECT id FROM locations', [], localImportLocationData, errorLocationDataCB);
   });
 }
 
 function localImportLocationData(tx,results){
   currentLocationCount = results.rows.length;
+  console.log("location count = " + currentLocationCount);
   if(currentLocationCount == 0){
+    console.log('location count 0 process')
 	  //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
-    //var uri = 'data/locations.txt';
-    var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=restaurants&callback=?';
-    //alert(uri);
+    var uri = 'http://www.jeremycallahan.com/gfApp/data/hotSpots2.txt';
+    //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=restaurants&callback=?';
 	  $.getJSON(uri, function(data) {
 		totalLocations = data['count_total'];
-		$.each(data['posts'], function(index, item){
+		//$.each(data['posts'], function(index, item){
+    $.each(data['hotspots'], function(index, item){
 		  locationsToLoad[index] = item;
-		  //if(index == totalLocations-1){
+		  if(index == totalLocations-1){
 			 db.transaction(writeLocationData,locationserrorCB,locationssuccessCB);
-		  //}
+		  }
 		});
 	  });
   } else {
-	  locUpdating = false;
+	  console.log('location count > 0 process')
+    locUpdating = false;
 	  if(!blogUpdating && !locUpdating && !recUpdating){
 		$('#updating_screen').css({'display':'none'});
 		if(!constate){
-		  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+		  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
 		}
 	  }
   }
@@ -525,18 +530,21 @@ function localImportLocationData(tx,results){
 
 function writeLocationData(tx){
   for(var i=0;i<locationsToLoad.length;i++){
-    if(locationsToLoad[i]['custom_fields']['_wppl_apt'] == 'undefined' || !locationsToLoad[i]['custom_fields']['_wppl_apt']){
-      locationsToLoad[i]['custom_fields']['_wppl_apt'] = '';
-    }
-    if(locationsToLoad[i]['custom_fields']['_wppl_lat'] == 'undefined' || !locationsToLoad[i]['custom_fields']['_wppl_lat']){
-      locationsToLoad[i]['custom_fields']['_wppl_lat'] = '0';
-    }
-    if(locationsToLoad[i]['custom_fields']['_wppl_long'] == 'undefined' || !locationsToLoad[i]['custom_fields']['_wppl_long']){
-      locationsToLoad[i]['custom_fields']['_wppl_long'] = '0';
-    }
+    // if(locationsToLoad[i]['custom_fields']['_wppl_apt'] == 'undefined' || !locationsToLoad[i]['custom_fields']['_wppl_apt']){
+    //   locationsToLoad[i]['custom_fields']['_wppl_apt'] = '';
+    // }
+    // if(locationsToLoad[i]['custom_fields']['_wppl_lat'] == 'undefined' || !locationsToLoad[i]['custom_fields']['_wppl_lat']){
+    //   locationsToLoad[i]['custom_fields']['_wppl_lat'] = '0';
+    // }
+    // if(locationsToLoad[i]['custom_fields']['_wppl_long'] == 'undefined' || !locationsToLoad[i]['custom_fields']['_wppl_long']){
+    //   locationsToLoad[i]['custom_fields']['_wppl_long'] = '0';
+    // }
     //tx.executeSql("REPLACE INTO locations (id, title, content, date, url, addr1, addr2, city, state, zip, phone, video, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[locationsToLoad[i]['id'],locationsToLoad[i]['title'],locationsToLoad[i]['content'],locationsToLoad[i]['date'],locationsToLoad[i]['url'],locationsToLoad[i]['custom_fields']['_wppl_street'],locationsToLoad[i]['custom_fields']['_wppl_apt'],locationsToLoad[i]['custom_fields']['_wppl_city'],locationsToLoad[i]['custom_fields']['_wppl_state'],locationsToLoad[i]['custom_fields']['_wppl_zipcode'],locationsToLoad[i]['custom_fields']['_wppl_phone'],locationsToLoad[i]['custom_fields']['hotspot-video'],locationsToLoad[i]['custom_fields']['_wppl_lat'],locationsToLoad[i]['custom_fields']['_wppl_long']]);
 
-    tx.executeSql("REPLACE INTO locations (id, title, content, date, url, addr1, addr2, city, state, zip, phone, video, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[locationsToLoad[i]['id'],locationsToLoad[i]['title'],locationsToLoad[i]['content'],locationsToLoad[i]['date'],locationsToLoad[i]['url'],locationsToLoad[i]['custom_fields']['tv_restaurant_address'],locationsToLoad[i]['custom_fields']['_wppl_apt'],locationsToLoad[i]['custom_fields']['tv_restaurant_city'],locationsToLoad[i]['custom_fields']['tv_restaurant_state'],locationsToLoad[i]['custom_fields']['tv_restaurant_zip'],locationsToLoad[i]['custom_fields']['tv_restaurant_phone'],locationsToLoad[i]['custom_fields']['hotspot-video'],'38.480429','-122.71805479999999']);
+    //tx.executeSql('DROP TABLE locations');
+
+    //console.log(locationsToLoad[i]['hotspot']['title']);
+    tx.executeSql("REPLACE INTO locations (id, title, content, url, addr1, city, state, zip, phone, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?,?)",[locationsToLoad[i]['hotspot']['id'],locationsToLoad[i]['hotspot']['title'],locationsToLoad[i]['hotspot']['description'],locationsToLoad[i]['hotspot']['page_url'],locationsToLoad[i]['hotspot']['street'],locationsToLoad[i]['hotspot']['city'],locationsToLoad[i]['hotspot']['province'],locationsToLoad[i]['hotspot']['postal_code'],locationsToLoad[i]['hotspot']['phone'],locationsToLoad[i]['hotspot']['latitude'],locationsToLoad[i]['hotspot']['longitude']]);
   }
 }
 
@@ -546,7 +554,7 @@ function locationssuccessCB() {
   if(!blogUpdating && !locUpdating && !recUpdating){
     $('#updating_screen').css({'display':'none'});
 	if(!constate){
-  	  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+  	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
 	}
   }
 }
@@ -557,7 +565,7 @@ function locationserrorCB() {
   if(!blogUpdating && !locUpdating && !recUpdating){
     $('#updating_screen').css({'display':'none'});
 	if(!constate){
-  	  navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+  	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
 	}
   }
 }
@@ -585,7 +593,7 @@ function searchLocationData(){
     $('#locsearchtxt').blur();
   } 
   else {
-    navigator.notification.alert('You must fill out a search keyword.', alertCallback, 'Location Search Error', 'OK');
+    //navigator.notification.alert('You must fill out a search keyword.', alertCallback, 'Location Search Error', 'OK');
   }
 }
 
@@ -593,9 +601,13 @@ function errorLocationSearchDataCB(){
   return false;
 }
 
+//id, title, content, url, addr1, city, state, zip, phone, lat, lng
+
 function errorLocationDataCB(err) {
+  console.log('errorLocationDataCB');
   db.transaction(function(tx){
-    tx.executeSql('CREATE TABLE IF NOT EXISTS locations (id unique, title, content, date, url, addr1, addr2, city, state, zip, phone, video, lat, lng)');
+    //tx.executeSql('CREATE TABLE locations (id unique, title, content, url, addr1, city, state, zip, phone, lat, lng)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS locations (id unique, title, content, url, addr1, city, state, zip, phone, lat, lng)');
   }, createerrorCB, getAppLocationCount);
 }
 

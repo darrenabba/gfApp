@@ -57,8 +57,8 @@
 
   function onDeviceReady(){
     console.log('onDeviceReady Fired');
-    gaPlugin = window.plugins.gaPlugin;
-    gaPlugin.init(GASuccessHandler, GAErrorHandler, "UA-37376566-2", 10);
+    //gaPlugin = window.plugins.gaPlugin;
+    //gaPlugin.init(GASuccessHandler, GAErrorHandler, "UA-37376566-2", 10);
     console.log('GA Ready');
     setRecipeBtnHack();
     loaddb();
