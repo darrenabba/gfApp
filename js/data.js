@@ -511,9 +511,9 @@ function localImportLocationData(tx,results){
 		//$.each(data['posts'], function(index, item){
     $.each(data['hotspots'], function(index, item){
 		  locationsToLoad[index] = item;
-		  if(index == totalLocations-1){
+		  //if(index == totalLocations-1){
 			 db.transaction(writeLocationData,locationserrorCB,locationssuccessCB);
-		  }
+		  //}
 		});
 	  });
   } else {
