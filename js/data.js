@@ -493,7 +493,7 @@ function loadRecipeSearchData(tx, results){
 //--------------START LOCATION DATA FUNCTIONS----------------//
 function getAppLocationCount(){
   db.transaction(function(tx){
-    //tx.executeSql('CREATE TABLE IF NOT EXISTS locations (id unique, title, content, url, addr1, city, state, zip, phone, lat, lng)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS locations (id unique, title, content, url, addr1, city, state, zip, phone, lat, lng)');
     tx.executeSql('SELECT id FROM locations', [], localImportLocationData, errorLocationDataCB);
   });
 }
@@ -504,7 +504,7 @@ function localImportLocationData(tx,results){
   if(currentLocationCount == 0){
     console.log('location count 0 process')
 	  //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
-    var uri = '../data/hotSpots2.txt';
+    var uri = 'http://www.jeremycallahan.com/gfApp/data/hotSpots2.txt';
     //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=restaurants&callback=?';
 	  $.getJSON(uri, function(data) {
 		totalLocations = data['count_total'];
