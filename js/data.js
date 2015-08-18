@@ -504,7 +504,7 @@ function localImportLocationData(tx,results){
   if(currentLocationCount == 0){
     console.log('location count 0 process')
 	  //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
-    var uri = 'http://www.jeremycallahan.com/gfApp/data/hotSpots2.txt';
+    var uri = 'data/hotSpots2.txt';
     //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=restaurants&callback=?';
 	  $.getJSON(uri, function(data) {
 		totalLocations = data['count_total'];
