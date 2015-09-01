@@ -75,9 +75,11 @@ function deleteBlogs(){
 
 function getAPIBlogCount(tx,results){
   if(constate){
-    var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total&callback=?';
+    //var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total&callback=?';
+    var uri = 'http://www.guyfieri.com/wp-json/posts?type=news';
     $.getJSON(uri, function(data) {
-	   importBlogData(data['count_total']);
+	   //importBlogData(data['count_total']);
+     importBlogData(data.length);
     });
   } else {
     checkBlogData();
@@ -85,13 +87,15 @@ function getAPIBlogCount(tx,results){
 }
 
 function importBlogData(count){
-  var uri = 'http://www.guyfieri.com/?json=1&post_type=news&custom_fields=news-video&count='+count+'&callback=?';
+  //var uri = 'http://www.guyfieri.com/?json=1&post_type=news&custom_fields=news-video&count='+count+'&callback=?';
+  console.log('importBlogData Starting' + count)
+  var uri = 'http://www.guyfieri.com/wp-json/posts?type=news';
   $.getJSON(uri, function(data) {
-    $.each(data['posts'], function(index, item){
+    console.log(data.length);
+    $.each(data, function(index, item){
+      console.log(data[index].id);
       blogsToLoad[index] = item;
-	  if(index == count-1){
 	    db.transaction(writeBlogData,blogerrorCB,blogsuccessCB);
-	  }
     });
   });
 }
@@ -99,9 +103,9 @@ function importBlogData(count){
 function writeBlogData(tx){
 	for(var i=0;i<blogsToLoad.length;i++){
 
-    var imageAttachment = blogsToLoad[i]['thumbnail_images']['full']['url'];
+    var imageAttachment = blogsToLoad[i]['featured_image']['attachment_meta']['sizes']['thumbnail']['url'];
 
-      tx.executeSql("REPLACE INTO blogs (id, title, excerpt, content, date, url, image) VALUES (?,?,?,?,?,?,?)",[blogsToLoad[i]['id'],blogsToLoad[i]['title'],blogsToLoad[i]['excerpt'],blogsToLoad[i]['content'],blogsToLoad[i]['date'],blogsToLoad[i]['url'],imageAttachment]);
+      tx.executeSql("REPLACE INTO blogs (id, title, excerpt, content, date, url, image) VALUES (?,?,?,?,?,?,?)",[blogsToLoad[i]['ID'],blogsToLoad[i]['title'],blogsToLoad[i]['excerpt'],blogsToLoad[i]['content'],blogsToLoad[i]['date'],blogsToLoad[i]['link'],imageAttachment]);
 	}
 }
 function blogsuccessCB() {
@@ -328,31 +332,29 @@ function getAppRecipeCount(){
 
 function localImportRecipeData(tx,results){
   currentRecipeCount = results.rows.length;
-  if(currentRecipeCount == 0){
-	  var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=recipes&callback=?';
+  // if(currentRecipeCount == 0){
+	  // var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=recipes&callback=?';
+    var uri = 'http://www.guyfieri.com/wp-json/posts?type=recipes';
 	  $.getJSON(uri, function(data) {
-		totalRecipes = data['count_total'];
-		$.each(data['posts'], function(index, item){
+		$.each(data, function(index, item){
 		  recipesToLoad[index] = item;
-		  if(index == totalRecipes-1){
 			db.transaction(writeRecipeData,recipeerrorCB,recipesuccessCB);
-		  }
 		});
-	  });
-  } else {
-	  recUpdating = false;
-	  if(!blogUpdating && !locUpdating && !recUpdating){
-		$('#updating_screen').css({'display':'none'});
-		if(!constate){
-		  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-		}
-	  }
-  }
+});
+  // } else {
+	 //  recUpdating = false;
+	 //  if(!blogUpdating && !locUpdating && !recUpdating){
+		// $('#updating_screen').css({'display':'none'});
+		// if(!constate){
+		//   //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+		// }
+	 //  }
+  // }
 }
 
 function writeRecipeData(tx){
   for(var i=0;i<recipesToLoad.length;i++){
-    tx.executeSql("REPLACE INTO recipes (id, title, summary, content, date, url, ingredients, image, cooktime, dish, occasion, protein) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[recipesToLoad[i]['id'],recipesToLoad[i]['title'],recipesToLoad[i]['excerpt'].replace(/<a\b[^>]*>(.*?)<\/a>/i,''),recipesToLoad[i]['content'],recipesToLoad[i]['date'],recipesToLoad[i]['url'],recipesToLoad[i]['custom_fields']['ingredients'],'',recipesToLoad[i]['custom_fields']['cook-time'],recipesToLoad[i]['dishtype'],recipesToLoad[i]['occasion'],recipesToLoad[i]['protein']]);
+    tx.executeSql("REPLACE INTO recipes (id, title, summary, content, date, url, ingredients, image, cooktime, dish, occasion, protein) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[recipesToLoad[i]['ID'],recipesToLoad[i]['title'],recipesToLoad[i]['excerpt'].replace(/<a\b[^>]*>(.*?)<\/a>/i,''),recipesToLoad[i]['content'],recipesToLoad[i]['date'],recipesToLoad[i]['url'],recipesToLoad[i]['terms']['recipeingredients'],'','',recipesToLoad[i]['terms']['dishtype'],recipesToLoad[i]['terms']['occasion'],recipesToLoad[i]['terms']['protein']]);
   }
 }
 
