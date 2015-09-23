@@ -76,7 +76,8 @@ function deleteBlogs(){
 function getAPIBlogCount(tx,results){
   if(constate){
     //var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total&callback=?';
-    var uri = 'http://www.guyfieri.com/wp-json/posts?type=news';
+    //var uri = 'http://www.guyfieri.com/wp-json/posts?type=news';
+    var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
     $.getJSON(uri, function(data) {
 	   //importBlogData(data['count_total']);
      importBlogData(data.length);
@@ -89,7 +90,8 @@ function getAPIBlogCount(tx,results){
 function importBlogData(count){
   //var uri = 'http://www.guyfieri.com/?json=1&post_type=news&custom_fields=news-video&count='+count+'&callback=?';
   console.log('importBlogData Starting' + count)
-  var uri = 'http://www.guyfieri.com/wp-json/posts?type=news';
+  //var uri = 'http://www.guyfieri.com/wp-json/posts?type=news';
+  var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
   $.getJSON(uri, function(data) {
     console.log(data.length);
     $.each(data, function(index, item){
@@ -333,8 +335,10 @@ function getAppRecipeCount(){
 function localImportRecipeData(tx,results){
   currentRecipeCount = results.rows.length;
   // if(currentRecipeCount == 0){
-	  // var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=recipes&callback=?';
-    var uri = 'http://www.guyfieri.com/wp-json/posts?type=recipes';
+	  //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=recipes&callback=?';
+    //var uri = 'http://www.guyfieri.com/wp-json/posts?type=recipes';
+    var uri = './data/recipe.txt';
+    //var uri = 'http://www.guyfieri.com/wp-json/posts/5613/';
 	  $.getJSON(uri, function(data) {
 		$.each(data, function(index, item){
 		  recipesToLoad[index] = item;
@@ -354,7 +358,60 @@ function localImportRecipeData(tx,results){
 
 function writeRecipeData(tx){
   for(var i=0;i<recipesToLoad.length;i++){
-    tx.executeSql("REPLACE INTO recipes (id, title, summary, content, date, url, ingredients, image, cooktime, dish, occasion, protein) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[recipesToLoad[i]['ID'],recipesToLoad[i]['title'],recipesToLoad[i]['excerpt'].replace(/<a\b[^>]*>(.*?)<\/a>/i,''),recipesToLoad[i]['content'],recipesToLoad[i]['date'],recipesToLoad[i]['url'],recipesToLoad[i]['terms']['recipeingredients'],'','',recipesToLoad[i]['terms']['dishtype'],recipesToLoad[i]['terms']['occasion'],recipesToLoad[i]['terms']['protein']]);
+
+    var ing = recipesToLoad[i]['terms']['recipeingredients'];
+    //console.log(ing);
+    var ingList = [];    
+    if(undefined !== ing){
+      for(var j=0; j<ing.length; j++){
+        ingList.push(ing[j].name);
+      }
+    }
+    else {
+      ingList.push("none");
+    }
+    //console.log(ingList); 
+
+    var occ = recipesToLoad[i]['terms']['occasion'];
+    console.log(occ);
+    var occList = [];    
+    if(undefined !== occ){
+      for(var k=0; k<occ.length; k++){
+        occList.push(occ[k].name);
+      }
+    }
+    else {
+      occList.push("none");
+    }
+    console.log(occList);
+
+    var dish = recipesToLoad[i]['terms']['dishtype'];
+    console.log(dish);
+    var dishList = [];    
+    if(undefined !== dish){
+      for(var l=0; l<dish.length; l++){
+        dishList.push(dish[l].name);
+      }
+    }
+    else {
+      dishList.push("none");
+    }
+    console.log(dishList);
+
+    var protein = recipesToLoad[i]['terms']['protein'];
+    console.log(protein);
+    var proteinList = [];    
+    if(undefined !== protein){
+      for(var m=0; m<protein.length; m++){
+        proteinList.push(protein[m].name);
+      }
+    }
+    else {
+      proteinList.push("none");
+    }
+    console.log(dishList);
+
+    tx.executeSql("REPLACE INTO recipes (id, title, summary, content, date, url, ingredients, image, cooktime, dish, occasion, protein) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[recipesToLoad[i]['ID'],recipesToLoad[i]['title'],recipesToLoad[i]['excerpt'].replace(/<a\b[^>]*>(.*?)<\/a>/i,''),recipesToLoad[i]['content'],recipesToLoad[i]['date'],recipesToLoad[i]['link'],ingList,'','',dishList,occList,proteinList]);
   }
 }
 
@@ -506,7 +563,7 @@ function localImportLocationData(tx,results){
   if(currentLocationCount == 0){
     console.log('location count 0 process')
 	  //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
-    var uri = 'http://www.jeremycallahan.com/gfApp/data/hotSpots2.txt';
+    var uri = 'http://jeremycallahan.com/gfApp/data/hotSpots.txt';
     //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=restaurants&callback=?';
 	  $.getJSON(uri, function(data) {
 		totalLocations = data['count_total'];
