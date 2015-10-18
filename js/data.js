@@ -20,14 +20,14 @@ function loadUpdateData(tx, results){
     if(results.rows.item(0).difference >= dbupdatewithin){
       updateUpdateData();
     } else {
-	  locUpdating = false;
-	  recUpdating = false;
-	  checkBlogData();
-	}
+    locUpdating = false;
+    recUpdating = false;
+    checkBlogData();
+  }
   } else {
-	locUpdating = false;
-	recUpdating = false;
-	checkBlogData();
+  locUpdating = false;
+  recUpdating = false;
+  checkBlogData();
   }
 }
 
@@ -73,13 +73,31 @@ function deleteBlogs(){
   });
 }
 
+/* old
 function getAPIBlogCount(tx,results){
   if(constate){
     //var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total&callback=?';
-    //var uri = 'http://www.guyfieri.com/wp-json/posts?type=news';
-    var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
+    ///var uri = 'http://www.guyfieri.com/wp-json/posts?type=news'; // good one
+    //var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
+    var uri = './data/news.txt';
     $.getJSON(uri, function(data) {
-	   //importBlogData(data['count_total']);
+     //importBlogData(data['count_total']);
+     importBlogData(data.length);
+    });
+  } else {
+    checkBlogData();
+  }
+}
+*/
+
+function getAPIBlogCount(tx,results){
+  if(constate){
+    //var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total&callback=?';
+    ///var uri = 'http://www.guyfieri.com/wp-json/posts?type=news'; // good one
+    //var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
+    var uri = './data/news.txt';
+    $.getJSON(uri, function(data) {
+     //importBlogData(data['count_total']);
      importBlogData(data.length);
     });
   } else {
@@ -92,23 +110,24 @@ function importBlogData(count){
   console.log('importBlogData Starting' + count)
   //var uri = 'http://www.guyfieri.com/wp-json/posts?type=news';
   var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
+  ///var uri = './data/news.txt';
   $.getJSON(uri, function(data) {
     console.log(data.length);
     $.each(data, function(index, item){
       console.log(data[index].id);
       blogsToLoad[index] = item;
-	    db.transaction(writeBlogData,blogerrorCB,blogsuccessCB);
+      db.transaction(writeBlogData,blogerrorCB,blogsuccessCB);
     });
   });
 }
 
 function writeBlogData(tx){
-	for(var i=0;i<blogsToLoad.length;i++){
+  for(var i=0;i<blogsToLoad.length;i++){
 
     var imageAttachment = blogsToLoad[i]['featured_image']['attachment_meta']['sizes']['thumbnail']['url'];
 
       tx.executeSql("REPLACE INTO blogs (id, title, excerpt, content, date, url, image) VALUES (?,?,?,?,?,?,?)",[blogsToLoad[i]['ID'],blogsToLoad[i]['title'],blogsToLoad[i]['excerpt'],blogsToLoad[i]['content'],blogsToLoad[i]['date'],blogsToLoad[i]['link'],imageAttachment]);
-	}
+  }
 }
 function blogsuccessCB() {
   blogsToLoad = [];
@@ -182,10 +201,10 @@ function loadBlogData(tx, results){
       else{
         var title = results.rows.item(i).title;
       }
-	  var encodedTitle = encodeURIComponent(title);
-	  var encodedContent = encodeURIComponent($(results.rows.item(i).content).text());
-	  var encodedURL = encodeURIComponent(results.rows.item(i).url);
-	  var encodedSource = encodeURIComponent('Guy Fieri');
+    var encodedTitle = encodeURIComponent(title);
+    var encodedContent = encodeURIComponent($(results.rows.item(i).content).text());
+    var encodedURL = encodeURIComponent(results.rows.item(i).url);
+    var encodedSource = encodeURIComponent('Guy Fieri');
       var dateparts = results.rows.item(i).date;
       var y = dateparts.substr(0,4);
       var m = dateparts.substr(5,2);
@@ -224,21 +243,21 @@ function loadBlogData(tx, results){
   });
 
     $(".social_icon").bind('click', function(e){
-  	e.preventDefault();
+    e.preventDefault();
       if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,"Guy's Updates","Share on "+translateSocialSites($(this).attr('class').replace(/social_icon\s+/,'')),$(this).parent('.share_this_icons').parent('.share_this').siblings('.title').html(),1); }
       /* Way of implementing social icons to stay in the app when they share, the childBrowser function call doesn't work
-  	e.preventDefault();
-  	window.plugins.childBrowser.showWebPage($(this).attr('href'),{showLocationBar:true,showAddress:true,showNavigationBar:true});
+    e.preventDefault();
+    window.plugins.childBrowser.showWebPage($(this).attr('href'),{showLocationBar:true,showAddress:true,showNavigationBar:true});
       */
-  	window.location.href = $(this).attr('href');
+    window.location.href = $(this).attr('href');
     });
 
    blogUpdating = false;
    if(!blogUpdating && !locUpdating && !recUpdating){
        $('#updating_screen').css({'display':'none'});
-   	if(!constate){
-     	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-   	}
+    if(!constate){
+        //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+    }
    }
   console.log('loadBlogData Ended');
   loadNewestBlog();
@@ -246,14 +265,14 @@ function loadBlogData(tx, results){
 
 function translateSocialSites(name){
    switch(name){
-	   case 'facebook':
-	     return 'Facebook';
-	   case 'twitter':
-	     return 'Twitter';
-	   case 'linkedin':
-	     return 'LinkedIn';
-	   case 'mail':
-	     return 'Mail';
+     case 'facebook':
+       return 'Facebook';
+     case 'twitter':
+       return 'Twitter';
+     case 'linkedin':
+       return 'LinkedIn';
+     case 'mail':
+       return 'Mail';
    }
 }
 
@@ -335,32 +354,36 @@ function getAppRecipeCount(){
 function localImportRecipeData(tx,results){
   currentRecipeCount = results.rows.length;
   // if(currentRecipeCount == 0){
-	  //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=recipes&callback=?';
+    //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=recipes&callback=?';
     //var uri = 'http://www.guyfieri.com/wp-json/posts?type=recipes';
     var uri = './data/recipe.txt';
     //var uri = 'http://www.guyfieri.com/wp-json/posts/5613/';
-	  $.getJSON(uri, function(data) {
-		$.each(data, function(index, item){
-		  recipesToLoad[index] = item;
-			db.transaction(writeRecipeData,recipeerrorCB,recipesuccessCB);
-		});
+    $.getJSON(uri, function(data) {
+    $.each(data, function(index, item){
+      recipesToLoad[index] = item;
+      db.transaction(writeRecipeData,recipeerrorCB,recipesuccessCB);
+    });
 });
   // } else {
-	 //  recUpdating = false;
-	 //  if(!blogUpdating && !locUpdating && !recUpdating){
-		// $('#updating_screen').css({'display':'none'});
-		// if(!constate){
-		//   //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-		// }
-	 //  }
+   //  recUpdating = false;
+   //  if(!blogUpdating && !locUpdating && !recUpdating){
+    // $('#updating_screen').css({'display':'none'});4
+    // if(!constate){
+    //   //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+    // }
+   //  }
   // }
 }
 
 function writeRecipeData(tx){
   for(var i=0;i<recipesToLoad.length;i++){
 
-    var ing = recipesToLoad[i]['terms']['recipeingredients'];
+    /// old: var ing = recipesToLoad[i]['terms']['recipeingredients'];
+
+    var ing = recipesToLoad[i]['meta'][0]['value'];
+
     //console.log(ing);
+    /* old 
     var ingList = [];    
     if(undefined !== ing){
       for(var j=0; j<ing.length; j++){
@@ -370,9 +393,10 @@ function writeRecipeData(tx){
     else {
       ingList.push("none");
     }
+    */
     //console.log(ingList); 
 
-    var occ = recipesToLoad[i]['terms']['occasion'];
+    var occ = recipesToLoad[i]['post']['terms']['occasion'];
     console.log(occ);
     var occList = [];    
     if(undefined !== occ){
@@ -385,7 +409,9 @@ function writeRecipeData(tx){
     }
     console.log(occList);
 
-    var dish = recipesToLoad[i]['terms']['dishtype'];
+    /// old: var dish = recipesToLoad[i]['terms']['dishtype'];
+    var dish = recipesToLoad[i]['post']['terms']['dishtype'];
+
     console.log(dish);
     var dishList = [];    
     if(undefined !== dish){
@@ -398,7 +424,7 @@ function writeRecipeData(tx){
     }
     console.log(dishList);
 
-    var protein = recipesToLoad[i]['terms']['protein'];
+    var protein = recipesToLoad[i]['post']['terms']['protein'];
     console.log(protein);
     var proteinList = [];    
     if(undefined !== protein){
@@ -411,7 +437,11 @@ function writeRecipeData(tx){
     }
     console.log(dishList);
 
-    tx.executeSql("REPLACE INTO recipes (id, title, summary, content, date, url, ingredients, image, cooktime, dish, occasion, protein) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[recipesToLoad[i]['ID'],recipesToLoad[i]['title'],recipesToLoad[i]['excerpt'].replace(/<a\b[^>]*>(.*?)<\/a>/i,''),recipesToLoad[i]['content'],recipesToLoad[i]['date'],recipesToLoad[i]['link'],ingList,'','',dishList,occList,proteinList]);
+    /// old: tx.executeSql("REPLACE INTO recipes (id, title, summary, content, date, url, ingredients, image, cooktime, dish, occasion, protein) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[recipesToLoad[i]['ID'],recipesToLoad[i]['title'],recipesToLoad[i]['excerpt'].replace(/<a\b[^>]*>(.*?)<\/a>/i,''),recipesToLoad[i]['content'],recipesToLoad[i]['date'],recipesToLoad[i]['link'],ingList,'','',dishList,occList,proteinList]);
+    
+    tx.executeSql("REPLACE INTO recipes (id, title, summary, content, date, url, ingredients, image, cooktime, dish, occasion, protein) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[recipesToLoad[i]['post']['ID'],recipesToLoad[i]['post']['title'],recipesToLoad[i]['post']['excerpt'].replace(/<a\b[^>]*>(.*?)<\/a>/i,''),recipesToLoad[i]['post']['content'],recipesToLoad[i]['post']['date'],recipesToLoad[i]['post']['link'],recipesToLoad[i]['meta'][0]['value'],'','',dishList,occList,proteinList]);
+
+
   }
 }
 
@@ -420,9 +450,9 @@ function recipesuccessCB() {
   recUpdating = false;
   if(!blogUpdating && !locUpdating && !recUpdating){
     $('#updating_screen').css({'display':'none'});
-	if(!constate){
-  	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-	}
+  if(!constate){
+      //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+  }
   }
 }
 
@@ -431,15 +461,15 @@ function recipeerrorCB() {
   recUpdating = false;
   if(!blogUpdating && !locUpdating && !recUpdating){
     $('#updating_screen').css({'display':'none'});
-	if(!constate){
-  	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-	}
+  if(!constate){
+      //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+  }
   }
 }
 
 function checkSingleRecipeData(rid){
   db.transaction(function(tx){
-	tx.executeSql('SELECT * FROM recipes WHERE id = '+rid, [], loadSingleRecipeData, errorRecipeDataCB);
+  tx.executeSql('SELECT * FROM recipes WHERE id = '+rid, [], loadSingleRecipeData, errorRecipeDataCB);
   });
 }
 
@@ -447,23 +477,23 @@ function filterRecipeData(filters){
   if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,"Recipes","Button Press","Filter",1); }
   var query = 'SELECT * FROM recipes WHERE';
   if(typeof filters['occ'] != 'undefined'){
-  	query += ' occasion LIKE \'%'+filters['occ']+'%\'';
-  	if(typeof filters['ing'] != 'undefined' || typeof filters['dsh'] != 'undefined'){
-  		query += ' AND';
-	}
+    query += ' occasion LIKE \'%'+filters['occ']+'%\'';
+    if(typeof filters['ing'] != 'undefined' || typeof filters['dsh'] != 'undefined'){
+      query += ' AND';
+  }
   }
   if(typeof filters['ing'] != 'undefined'){
-  	query += ' ingredients LIKE \'%'+filters['ing']+'%\'';
-  	if(typeof filters['dsh'] != 'undefined'){
-  		query += ' AND';
-	}
+    query += ' protein LIKE \'%'+filters['ing']+'%\'';
+    if(typeof filters['dsh'] != 'undefined'){
+      query += ' AND';
+  }
   }
   if(typeof filters['dsh'] != 'undefined'){
-  	query += ' dish LIKE \'%'+filters['dsh']+'%\'';
+    query += ' dish LIKE \'%'+filters['dsh']+'%\'';
   }
   query += ' ORDER BY title ASC';
   db.transaction(function(tx){
-	tx.executeSql(query, [], loadRecipeSearchData, errorRecipeSearchDataCB);
+  tx.executeSql(query, [], loadRecipeSearchData, errorRecipeSearchDataCB);
   });
 }
 
@@ -525,17 +555,17 @@ function loadRecipeSearchData(tx, results){
     else{
       oe = 'odd';
     }
-	listoutput += '><div class="item" rel="'+results.rows.item(i).id+'"><div class="title">';
-	
-	if(results.rows.item(i).title.length > 45)
-		listoutput += results.rows.item(i).title.substring(0,45)+'...';
-	else
-		listoutput += results.rows.item(i).title;
+  listoutput += '><div class="item" rel="'+results.rows.item(i).id+'"><div class="title">';
+  
+  if(results.rows.item(i).title.length > 45)
+    listoutput += results.rows.item(i).title.substring(0,45)+'...';
+  else
+    listoutput += results.rows.item(i).title;
 
     listoutput += '</div></div></li>';
   }
   if(len == 0){
-	  listoutput = '<div class="no_results_found">No Results Found</div>';
+    listoutput = '<div class="no_results_found">No Results Found</div>';
   }
   $("#recscroller #reclist").empty();
   $("#recscroller #reclist").append(listoutput);
@@ -562,28 +592,29 @@ function localImportLocationData(tx,results){
   console.log("location count = " + currentLocationCount);
   if(currentLocationCount == 0){
     console.log('location count 0 process')
-	  //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
-    var uri = 'http://jeremycallahan.com/gfApp/data/hotSpots.txt';
+    //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=hotspots&callback=?';
+    /// var uri = 'http://jeremycallahan.com/gfApp/data/hotSpots.txt';
+    var uri = './data/hotSpots.txt';
     //var uri = 'http://www.guyfieri.com/api/customtax/get_recent_posts/?post_type=restaurants&callback=?';
-	  $.getJSON(uri, function(data) {
-		totalLocations = data['count_total'];
-		//$.each(data['posts'], function(index, item){
+    $.getJSON(uri, function(data) {
+    totalLocations = data['count_total'];
+    //$.each(data['posts'], function(index, item){
     $.each(data['hotspots'], function(index, item){
-		  locationsToLoad[index] = item;
-		  //if(index == totalLocations-1){
-			 db.transaction(writeLocationData,locationserrorCB,locationssuccessCB);
-		  //}
-		});
-	  });
+      locationsToLoad[index] = item;
+      //if(index == totalLocations-1){
+       db.transaction(writeLocationData,locationserrorCB,locationssuccessCB);
+      //}
+    });
+    });
   } else {
-	  console.log('location count > 0 process')
+    console.log('location count > 0 process')
     locUpdating = false;
-	  if(!blogUpdating && !locUpdating && !recUpdating){
-		$('#updating_screen').css({'display':'none'});
-		if(!constate){
-		  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-		}
-	  }
+    if(!blogUpdating && !locUpdating && !recUpdating){
+    $('#updating_screen').css({'display':'none'});
+    if(!constate){
+      //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+    }
+    }
   }
 }
 
@@ -612,9 +643,9 @@ function locationssuccessCB() {
   locUpdating = false;
   if(!blogUpdating && !locUpdating && !recUpdating){
     $('#updating_screen').css({'display':'none'});
-	if(!constate){
-  	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-	}
+  if(!constate){
+      //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+  }
   }
 }
 
@@ -623,15 +654,15 @@ function locationserrorCB() {
   locUpdating = false;
   if(!blogUpdating && !locUpdating && !recUpdating){
     $('#updating_screen').css({'display':'none'});
-	if(!constate){
-  	  //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
-	}
+  if(!constate){
+      //navigator.notification.alert('Could not download updates. Turn off Airplane Mode or use Wi-Fi and then please restart the application.', function(){}, 'Guy Fieri', 'OK');
+  }
   }
 }
 
 function checkSingleLocationData(lid){
   db.transaction(function(tx){
-	tx.executeSql('SELECT * FROM locations WHERE id = '+lid, [], loadSingleLocationData, errorLocationDataCB);
+  tx.executeSql('SELECT * FROM locations WHERE id = '+lid, [], loadSingleLocationData, errorLocationDataCB);
   });
 }
 
@@ -676,8 +707,8 @@ function loadSingleLocationData(tx, results){
     var title = results.rows.item(0).title;
     var phone = results.rows.item(0).phone;
     //phone = phone.replace('-','');
-	var daddr = ((results.rows.item(0).addr1!='')?results.rows.item(0).addr1:'')+((results.rows.item(0).addr2!='')?'+'+results.rows.item(0).addr2:'')+((results.rows.item(0).city!='')?'+'+results.rows.item(0).city:'')+((results.rows.item(0).state!='')?'+'+results.rows.item(0).state:'')+((results.rows.item(0).zip!='')?'+'+results.rows.item(0).zip:'');
-	daddr = daddr.replace(' ','+');
+  var daddr = ((results.rows.item(0).addr1!='')?results.rows.item(0).addr1:'')+((results.rows.item(0).addr2!='')?'+'+results.rows.item(0).addr2:'')+((results.rows.item(0).city!='')?'+'+results.rows.item(0).city:'')+((results.rows.item(0).state!='')?'+'+results.rows.item(0).state:'')+((results.rows.item(0).zip!='')?'+'+results.rows.item(0).zip:'');
+  daddr = daddr.replace(' ','+');
     //var img = (results.rows.item(0).image != '')?'<div class="top"></div><div class="middle"><img src="'+results.rows.item(0).image+'" width="270" /></div><div class="bottom"></div>':'';
     var output = '<div>';
     var addressoutput = '';
@@ -695,17 +726,17 @@ function loadSingleLocationData(tx, results){
     //$('#locationspage #single #litem .item .imgarea').html(img);
     $('#locationspage #single #litem .item .content').html(output);
     $('#locationspage #single #litem .item .content a').each(function(){
-		if(!$(this).hasClass('loc_a')){
-			$(this).attr('target','_blank');
-		}
-	});
+    if(!$(this).hasClass('loc_a')){
+      $(this).attr('target','_blank');
+    }
+  });
     $('#locationspage #single #litem .item .content .phone_a').bind('click',function(e){ e.preventDefault(); if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Restaurant Details > Call',title,1); } window.location.href = $(this).attr('href'); });
     $('#locationspage #single #litem .item .content .directions_a').bind('click',function(e){ e.preventDefault(); if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Restaurant Details > Get Directions',title,1); } window.location.href = $(this).attr('href'); });
     if(gaPluginInitialized){ gaPlugin.trackPage(GATrackPageResultHandler,GATrackPageErrorHandler,'Locations - Details Page: '+title); }
     showlocation();
   }
   else
-  	alert('No results');
+    alert('No results');
 }
 
 function loadLocationData(tx, results){
@@ -720,7 +751,7 @@ function loadLocationData(tx, results){
                                   font:"14px Museo700",
                                   position:"relative"
                         },
-						closeBoxURL: "",
+            closeBoxURL: "",
                         pane: "floatPane",
                         pixelOffset:new google.maps.Size(0,-95)
   };
@@ -733,7 +764,7 @@ function loadLocationData(tx, results){
   for (var i=0; i<len; i++){
     dist = new Number(distance(storage.getItem('lat'), storage.getItem('lng'), results.rows.item(i).lat, results.rows.item(i).lng));
     if(dist < 100){
-	  var distInt = Math.round(dist*1000);
+    var distInt = Math.round(dist*1000);
       latlng = new google.maps.LatLng(results.rows.item(i).lat,results.rows.item(i).lng);
       var marker = new google.maps.Marker({
         position: latlng,
@@ -756,39 +787,39 @@ function loadLocationData(tx, results){
         */
         infobox.setContent(content);
         infobox.open(map, this);
-		
-		/* Click event works now, but somehow checkSingleLocationData is not being called or may be that function has some issues - Added by Arun on Aug 29th.
+    
+    /* Click event works now, but somehow checkSingleLocationData is not being called or may be that function has some issues - Added by Arun on Aug 29th.
         */
-		if(infobox_click == 0){
-			google.maps.event.addListener(infobox, 'domready', function(){
-			  $('.info_box_title').on('click', function(){
+    if(infobox_click == 0){
+      google.maps.event.addListener(infobox, 'domready', function(){
+        $('.info_box_title').on('click', function(){
                 if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Map View > Restaurant Details',$(this).children('div').children('.title').html(),1); }
-				checkSingleLocationData($(this).attr('rel'));
-			  });
-			});
-			infobox_click = 1;
-		}
-		
+        checkSingleLocationData($(this).attr('rel'));
+        });
+      });
+      infobox_click = 1;
+    }
+    
         infobox.show();
       });
       markers.push(marker);
-	  if(typeof listoutput[distInt] == 'undefined'){
-		  listoutput[distInt] = '';
-	  }
+    if(typeof listoutput[distInt] == 'undefined'){
+      listoutput[distInt] = '';
+    }
       listoutput[distInt] += '<li class="item" rel="'+results.rows.item(i).id+'"><div class="title">';
-	
-	if(results.rows.item(i).title.length > 25)
-		listoutput[distInt] += results.rows.item(i).title.substring(0,25)+'...';
-	else
-		listoutput[distInt] += results.rows.item(i).title;
-		
-	listoutput[distInt] += '</div><div class="address">';
-	
+  
+  if(results.rows.item(i).title.length > 25)
+    listoutput[distInt] += results.rows.item(i).title.substring(0,25)+'...';
+  else
+    listoutput[distInt] += results.rows.item(i).title;
+    
+  listoutput[distInt] += '</div><div class="address">';
+  
       if(results.rows.item(i).addr1){
         if(results.rows.item(i).addr1.length > 25)
-			listoutput[distInt] += results.rows.item(i).addr1.substring(0,25)+'...';
-		else
-			listoutput[distInt] += results.rows.item(i).addr1;
+      listoutput[distInt] += results.rows.item(i).addr1.substring(0,25)+'...';
+    else
+      listoutput[distInt] += results.rows.item(i).addr1;
       }
       if(results.rows.item(i).city && results.rows.item(i).state){
         listoutput[distInt] += '<br />'+results.rows.item(i).city+', '+results.rows.item(i).state;
