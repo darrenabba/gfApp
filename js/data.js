@@ -73,30 +73,15 @@ function deleteBlogs(){
   });
 }
 
-/* old
 function getAPIBlogCount(tx,results){
   if(constate){
     //var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total&callback=?';
-    ///var uri = 'http://www.guyfieri.com/wp-json/posts?type=news'; // good one
-    //var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
+    ///var uri = 'http://www.guyfieri.com/wp-json/posts?type=news&callback=?'; // good one
+    ///var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
     var uri = './data/news.txt';
+    
     $.getJSON(uri, function(data) {
-     //importBlogData(data['count_total']);
-     importBlogData(data.length);
-    });
-  } else {
-    checkBlogData();
-  }
-}
-*/
-
-function getAPIBlogCount(tx,results){
-  if(constate){
-    //var uri = 'http://www.guyfieri.com/?json=1&post_type=news&include=count_total&callback=?';
-    ///var uri = 'http://www.guyfieri.com/wp-json/posts?type=news'; // good one
-    //var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
-    var uri = './data/news.txt';
-    $.getJSON(uri, function(data) {
+      //console.log(data);
      //importBlogData(data['count_total']);
      importBlogData(data.length);
     });
@@ -108,9 +93,10 @@ function getAPIBlogCount(tx,results){
 function importBlogData(count){
   //var uri = 'http://www.guyfieri.com/?json=1&post_type=news&custom_fields=news-video&count='+count+'&callback=?';
   console.log('importBlogData Starting' + count)
-  //var uri = 'http://www.guyfieri.com/wp-json/posts?type=news';
-  var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
-  ///var uri = './data/news.txt';
+  ///var uri = 'http://www.guyfieri.com/wp-json/posts?type=news&callback=?'; // good one
+  ///var uri = 'http://jeremycallahan.com/gfApp/data/news.txt';
+  var uri = './data/news.txt';
+  
   $.getJSON(uri, function(data) {
     console.log(data.length);
     $.each(data, function(index, item){
@@ -731,7 +717,7 @@ function loadSingleLocationData(tx, results){
     }
   });
     $('#locationspage #single #litem .item .content .phone_a').bind('click',function(e){ e.preventDefault(); if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Restaurant Details > Call',title,1); } window.location.href = $(this).attr('href'); });
-    $('#locationspage #single #litem .item .content .directions_a').bind('click',function(e){ e.preventDefault(); if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Restaurant Details > Get Directions',title,1); } window.location.href = $(this).attr('href'); });
+    $('#locationspage #single #litem .item .content .directions_a').bind('click',function(e){ e.preventDefault(); if(gaPluginInitialized){ gaPlugin.trackEvent(GATrackEventResultHandler,GATrackEventErrorHandler,'Locations','Restaurant Details > Get Directions',title,1); } window.open($(this).attr('href'), '_blank', 'location=yes'); });
     if(gaPluginInitialized){ gaPlugin.trackPage(GATrackPageResultHandler,GATrackPageErrorHandler,'Locations - Details Page: '+title); }
     showlocation();
   }
