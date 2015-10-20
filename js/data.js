@@ -469,6 +469,7 @@ function filterRecipeData(filters){
   }
   }
   if(typeof filters['ing'] != 'undefined'){
+    if (filters['ing'] === 'Chicken') { filters['ing'] = 'Poultry'} //Chicken is Poultry in the db
     query += ' protein LIKE \'%'+filters['ing']+'%\'';
     if(typeof filters['dsh'] != 'undefined'){
       query += ' AND';
